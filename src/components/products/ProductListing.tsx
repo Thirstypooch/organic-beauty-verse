@@ -14,7 +14,7 @@ import { useFilterStore } from "@/stores/filterStore";
 const ProductListing = () => {
   const { category } = useParams<{ category: string }>();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [priceRange, setPriceRange] = useState([0, 100]);
+  const [localPriceRange, setLocalPriceRange] = useState([0, 100]);
   const filters = useFilterStore((state) => state.filters);
   const setCategory = useFilterStore((state) => state.setCategory);
   const setPriceRange = useFilterStore((state) => state.setPriceRange);
@@ -52,7 +52,7 @@ const ProductListing = () => {
   }, [category, setCategory]);
 
   const handlePriceChange = (values: number[]) => {
-    setPriceRange(values);
+    setLocalPriceRange(values);
     setPriceRange(values[0], values[1]);
   };
 
@@ -108,15 +108,15 @@ const ProductListing = () => {
             <div className="mb-6">
               <h3 className="font-medium mb-3 text-youorganic-dark">Price Range</h3>
               <Slider 
-                defaultValue={priceRange} 
+                defaultValue={localPriceRange} 
                 max={100} 
                 step={1} 
                 onValueChange={handlePriceChange}
                 className="mb-4"
               />
               <div className="flex justify-between text-sm text-youorganic-dark/70">
-                <span>${priceRange[0]}</span>
-                <span>${priceRange[1]}</span>
+                <span>${localPriceRange[0]}</span>
+                <span>${localPriceRange[1]}</span>
               </div>
             </div>
 
