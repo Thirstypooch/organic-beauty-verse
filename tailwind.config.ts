@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,7 +62,21 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// YouOrganic custom colors
+				youorganic: {
+					'green': '#4C7C44',
+					'light-green': '#87A881',
+					'cream': '#F6F3E9',
+					'beige': '#E8E2D0',
+					'brown': '#A57C52',
+					'light-brown': '#C8B4A3',
+					'dark': '#1E2B1B'
 				}
+			},
+			fontFamily: {
+				sans: ['Inter', 'sans-serif'],
+				serif: ['Playfair Display', 'serif'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -84,11 +99,22 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'fade-in': {
+					'0%': {
+						opacity: '0',
+						transform: 'translateY(10px)'
+					},
+					'100%': {
+						opacity: '1',
+						transform: 'translateY(0)'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'fade-in': 'fade-in 0.3s ease-out'
 			}
 		}
 	},
