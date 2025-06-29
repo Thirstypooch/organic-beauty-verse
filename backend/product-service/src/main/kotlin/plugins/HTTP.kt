@@ -6,9 +6,14 @@ import io.ktor.server.plugins.cors.routing.*
 
 fun Application.configureHTTP() {
     install(CORS) {
-        allowMethod(HttpMethod.Options)
-        allowMethod(HttpMethod.Get)
+        anyHost() // For development. In production, you would list your frontend's domain.
+        allowHeader(HttpHeaders.ContentType)
         allowHeader(HttpHeaders.Authorization)
-        anyHost() // For development, we allow any host. For production, you would restrict this.
+        allowMethod(HttpMethod.Options) // Essential for pre-flight requests
+        allowMethod(HttpMethod.Get)
+        allowMethod(HttpMethod.Post)
+        allowMethod(HttpMethod.Put)
+        allowMethod(HttpMethod.Delete)
+        allowMethod(HttpMethod.Patch)
     }
 }

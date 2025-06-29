@@ -78,5 +78,3 @@ private fun toCategory(row: ResultRow): Category =
         name = row[Categories.name],
         description = row[Categories.description]
     )
-
-// NOTE: The extra curly braces from your original file have been removed here.
