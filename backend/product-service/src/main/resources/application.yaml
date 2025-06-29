@@ -1,0 +1,11 @@
+ktor:
+    application:
+        modules:
+            - com.thirstypooch.ApplicationKt.module
+    deployment:
+        port: 8002
+database:
+    url: ${DB_URL}
+    user: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver: "org.postgresql.Driver"
