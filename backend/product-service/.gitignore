@@ -34,4 +34,9 @@ out/
 
 ### VS Code ###
 .vscode/
+
 .env
+repomix-output-product-service.xml
+repomix-output.xml
+.junie/
+src/main/resources/products.json

@@ -34,6 +34,26 @@ class AuthController extends Controller
 
     public function login(Request $request): JsonResponse
     {
-        return response()->json(['message' => 'Login endpoint']);
+        $credentials = $request->validate([
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+        ]);
+
+        $user = User::where('email', $credentials['email'])->first();
+
+        if (!$user || !Hash::check($credentials['password'], $user->password)) {
+            return response()->json([
+                'message' => 'Invalid credentials'
+            ], 401);
+        }
+
+        // Create a new Sanctum token for the authenticated user
+        $token = $user->createToken('api-token-for-' . $user->name)->plainTextToken;
+
+        return response()->json([
+            'message' => 'Login successful',
+            'user' => $user,
+            'token' => $token
+        ]);
     }
 }

@@ -14,7 +14,6 @@ import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
 // This wildcard import is the key fix. It brings in `selectAll`, `select`, `eq`, etc.
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 
 fun Application.configureRouting() {
     routing {
@@ -63,8 +62,9 @@ fun Application.configureRouting() {
 private fun toProduct(row: ResultRow): Product =
     Product(
         id = row[Products.id],
+        externalId = row[Products.externalId],
         name = row[Products.name],
-        price = row[Products.price],
+        price = row[Products.price].toDouble(),
         description = row[Products.description],
         categoryId = row[Products.categoryId],
         howToUse = row[Products.howToUse],

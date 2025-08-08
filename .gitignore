@@ -16,6 +16,7 @@ dist-ssr
 .vscode/*
 !.vscode/extensions.json
 .idea
+.junie
 .DS_Store
 *.suo
 *.ntvs*
@@ -25,3 +26,5 @@ dist-ssr
 repomix-output.xml
 .env
 .env/*
+repomix-output-frontend.xml
+public/
