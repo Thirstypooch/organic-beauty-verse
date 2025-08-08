@@ -5,29 +5,13 @@ use App\Http\Controllers\ProxyController;
 
 /*
 |--------------------------------------------------------------------------
-| API Gateway Routes
+| API Gateway Catch-All Route
 |--------------------------------------------------------------------------
 |
-| These routes act as a proxy, forwarding requests to the appropriate
-| microservice. The '{any}' parameter captures the entire path.
+| This single route captures all requests made to the /api/* endpoint.
+| The ProxyController is now responsible for determining where to
+| forward the request based on the URL path.
 |
 */
 
-
-Route::any('register/{any?}', [ProxyController::class, 'proxy'])
-    ->where('any', '.*')->defaults('service', 'user');
-
-Route::any('login/{any?}', [ProxyController::class, 'proxy'])
-    ->where('any', '.*')->defaults('service', 'user');
-
-
-Route::any('user/{any?}', [ProxyController::class, 'proxy'])
-    ->where('any', '.*')->defaults('service', 'user');
-
-
-
-Route::any('products/{any?}', [ProxyController::class, 'proxy'])
-    ->where('any', '.*')->defaults('service', 'product');
-
-Route::any('categories/{any?}', [ProxyController::class, 'proxy'])
-    ->where('any', '.*')->defaults('service', 'product');
+Route::any('{any}', [ProxyController::class, 'proxy'])->where('any', '.*');
