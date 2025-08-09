@@ -26,15 +26,16 @@ object DatabaseFactory {
             if (Categories.selectAll().count() == 0L) {
                 Categories.batchInsert(
                     listOf(
-                        "Facial" to "Effective skincare solutions for your face",
-                        "Masajes" to "Relaxing massage oils and body products",
-                        "Limpieza Facial" to "Deep cleansing products for facial care",
-                        "Corporal" to "Complete body care products",
-                        "Cabello" to "Hair care products for all hair types"
+                        Triple("Facial", "Effective skincare solutions for your face", "https://images.unsplash.com/photo-1596755389378-c31d21fd1273?q=80&w=500"),
+                        Triple("Masajes", "Relaxing massage oils and body products", "https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=500"),
+                        Triple("Limpieza Facial", "Deep cleansing products for facial care", "https://images.unsplash.com/photo-1519824145371-296894a0daa9?q=80&w=500"),
+                        Triple("Corporal", "Complete body care products", "https://images.unsplash.com/photo-1570194065650-d99fb4abbd47?q=80&w=500"),
+                        Triple("Cabello", "Hair care products for all hair types", "https://images.unsplash.com/photo-1595476108003-e467c597eca6?q=80&w=500")
                     )
-                ) { (name, description) ->
+                ) { (name, description, imageUrl) ->
                     this[Categories.name] = name
                     this[Categories.description] = description
+                    this[Categories.imageUrl] = imageUrl
                 }
                 println("✅ Categories seeded.")
             }

@@ -76,5 +76,6 @@ private fun toCategory(row: ResultRow): Category =
     Category(
         id = row[Categories.id],
         name = row[Categories.name],
-        description = row[Categories.description]
+        description = row[Categories.description],
+        imageUrl = row[Categories.imageUrl]
     )

@@ -29,6 +29,7 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-jdbc:0.41.1")
     implementation("org.postgresql:postgresql:42.5.0")
     implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
+    implementation("com.charleskorn.kaml:kaml:0.55.0")
     testImplementation(libs.ktor.server.test.host)
     testImplementation(libs.kotlin.test.junit)
 }

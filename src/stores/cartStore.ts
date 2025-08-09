@@ -1,14 +1,14 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { Product } from "../types/product";
+import { Product } from "../lib/schemas.ts"
 import { CartItem, Cart } from "../types/cart";
 
 interface CartState {
   cart: Cart;
   addToCart: (product: Product, quantity?: number) => void;
-  removeFromCart: (productId: string) => void;
-  updateQuantity: (productId: string, quantity: number) => void;
+  removeFromCart: (productId: number) => void;
+  updateQuantity: (productId: number, quantity: number) => void;
   clearCart: () => void;
   getTotal: () => number;
   getTotalItems: () => number;

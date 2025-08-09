@@ -1,8 +1,32 @@
 
 import { Link } from "react-router-dom";
-import { categories } from "@/data/mockProducts";
+import { useQuery } from '@tanstack/react-query';
+import { fetchCategories } from '@/services/api';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const CategoryShowcase = () => {
+  const { data: categories, isLoading, isError } = useQuery({
+    queryKey: ['categories'],
+    queryFn: fetchCategories,
+  });
+
+  if (isLoading) {
+    return (
+        <section className="py-12 md:py-16 bg-white">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {Array.from({ length: 3 }).map((_, i) => (
+                  <Skeleton key={i} className="h-64 w-full rounded-lg" />
+              ))}
+            </div>
+          </div>
+        </section>
+    );
+  }
+
+  if (isError) {
+    return <div className="text-center py-12">Failed to load categories.</div>;
+  }
   return (
     <section className="py-12 md:py-16 bg-white">
       <div className="container mx-auto px-4">
@@ -16,7 +40,7 @@ const CategoryShowcase = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {categories.slice(0, 6).map((category, index) => (
+          {categories?.slice(0, 6).map((category, index) => (
             <Link
               key={category.id}
               to={`/products/${category.name.toLowerCase()}`}

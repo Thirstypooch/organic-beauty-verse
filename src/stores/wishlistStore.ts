@@ -1,14 +1,14 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { Product } from "../types/product";
+import { Product } from "../lib/schemas.ts";
 import { WishlistItem, Wishlist } from "../types/cart";
 
 interface WishlistState {
   wishlist: Wishlist;
   addToWishlist: (product: Product) => void;
-  removeFromWishlist: (productId: string) => void;
-  isInWishlist: (productId: string) => boolean;
+  removeFromWishlist: (productId: number) => void;
+  isInWishlist: (productId: number) => boolean;
   clearWishlist: () => void;
 }
 
