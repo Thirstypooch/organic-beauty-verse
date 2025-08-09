@@ -1,5 +1,9 @@
 import apiClient from '@/lib/apiClient';
 import {
+    authResponseSchema,
+    AuthResponse,
+    RegisterFormData,
+    LoginFormData,
     categorySchema,
     productSchema,
     Category,
@@ -31,5 +35,25 @@ export async function fetchProducts(category?: string): Promise<Product[]> {
     } catch (error) {
         console.error(`Failed to fetch products for category "${category}":`, error);
         throw new Error('Could not fetch products.');
+    }
+}
+
+export async function registerUser(data: RegisterFormData): Promise<AuthResponse> {
+    try {
+        const response = await apiClient.post('/register', data);
+        return authResponseSchema.parse(response.data);
+    } catch (error) {
+        console.error('Registration failed:', error);
+        throw new Error('Could not register user.');
+    }
+}
+
+export async function loginUser(data: LoginFormData): Promise<AuthResponse> {
+    try {
+        const response = await apiClient.post('/login', data);
+        return authResponseSchema.parse(response.data);
+    } catch (error) {
+        console.error('Login failed:', error);
+        throw new Error('Invalid credentials.');
     }
 }
