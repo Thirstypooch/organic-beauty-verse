@@ -5,8 +5,8 @@ import { useCartStore } from "@/stores/cartStore";
 import { useWishlistStore } from "@/stores/wishlistStore";
 import { toast } from "@/components/ui/sonner";
 import { Product } from "@/lib/schemas";
+import { motion } from "framer-motion";
 
-// The props now require a categoryName to be passed in
 interface ProductCardProps {
   product: Product;
   categoryName: string;
@@ -15,11 +15,12 @@ interface ProductCardProps {
 const ProductCard = ({ product, categoryName }: ProductCardProps) => {
   const addToCart = useCartStore((state) => state.addToCart);
   const addToWishlist = useWishlistStore((state) => state.addToWishlist);
+  const removeFromWishlist = useWishlistStore((state) => state.removeFromWishlist);
   const isInWishlist = useWishlistStore((state) => state.isInWishlist);
 
-  // Fallback image in case imageUrl is null
   const imageUrl = product.imageUrl || "https://via.placeholder.com/400";
   const categoryUrl = categoryName.toLowerCase();
+  const wishlisted = isInWishlist(product.id);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -30,71 +31,84 @@ const ProductCard = ({ product, categoryName }: ProductCardProps) => {
     });
   };
 
-  const handleAddToWishlist = (e: React.MouseEvent) => {
+  const handleToggleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    addToWishlist(product);
-    toast.success("Agregado a favoritos", {
-      description: `${product.name} se agregó a tu lista de deseos.`,
-    });
+    if (wishlisted) {
+      removeFromWishlist(product.id);
+      toast.success("Eliminado de favoritos", {
+        description: `${product.name} se eliminó de tu lista de deseos.`,
+      });
+    } else {
+      addToWishlist(product);
+      toast.success("Agregado a favoritos", {
+        description: `${product.name} se agregó a tu lista de deseos.`,
+      });
+    }
   };
 
   return (
-      <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow group">
-        <Link
-            to={`/products/${categoryUrl}/${product.id}`}
-            className="block relative aspect-square overflow-hidden"
-        >
-          <img
-              src={imageUrl}
-              alt={product.name || 'Product Image'}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-          <span className="absolute top-3 left-3 bg-youorganic-green text-white text-xs px-2 py-1 rounded font-medium">
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.45, ease: "easeOut" }}
+      className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow group"
+    >
+      <Link
+        to={`/products/${categoryUrl}/${product.id}`}
+        className="block relative aspect-[3/4] sm:aspect-square overflow-hidden"
+      >
+        <img
+          src={imageUrl}
+          alt={product.name || "Imagen del producto"}
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+
+        {/* Insignia de categoría — esquina superior izquierda */}
+        <span className="absolute top-3 left-3 bg-youorganic-green text-white text-xs px-2.5 py-1 rounded-full font-medium">
           {categoryName}
         </span>
+
+        {/* Botón de favoritos — esquina superior derecha */}
+        <button
+          type="button"
+          onClick={handleToggleWishlist}
+          className={`absolute top-3 right-3 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-white/80 backdrop-blur-sm transition-colors ${
+            wishlisted
+              ? "text-youorganic-green"
+              : "text-youorganic-dark/50 hover:text-youorganic-green"
+          }`}
+          aria-label={wishlisted ? "Quitar de favoritos" : "Agregar a favoritos"}
+        >
+          <Heart
+            size={22}
+            fill={wishlisted ? "#4C7C44" : "none"}
+            strokeWidth={wishlisted ? 0 : 2}
+          />
+        </button>
+      </Link>
+
+      <div className="p-4">
+        <Link to={`/products/${categoryUrl}/${product.id}`} className="block">
+          <h3 className="font-serif text-base sm:text-lg font-semibold mb-1 text-youorganic-dark group-hover:text-youorganic-green transition-colors truncate">
+            {product.name}
+          </h3>
         </Link>
-        <div className="p-4">
-          <Link
-              to={`/products/${categoryUrl}/${product.id}`}
-              className="block"
-          >
-            <h3 className="font-serif text-lg font-semibold mb-1 text-youorganic-dark hover:text-youorganic-green transition-colors truncate">
-              {product.name}
-            </h3>
-          </Link>
-          <p className="text-youorganic-light-brown mb-3 text-sm line-clamp-2">
-            {product.description}
-          </p>
-          <div className="flex items-center justify-between">
-          <span className="text-lg font-semibold text-youorganic-green">
-            ${product.price.toFixed(2)}
-          </span>
-            <div className="flex items-center space-x-2">
-              <Button
-                  variant="ghost"
-                  size="icon"
-                  className={`rounded-full hover:bg-youorganic-cream hover:text-youorganic-green ${
-                      isInWishlist(product.id)
-                          ? "text-youorganic-green"
-                          : "text-youorganic-dark"
-                  }`}
-                  onClick={handleAddToWishlist}
-              >
-                <Heart size={20} />
-              </Button>
-              <Button
-                  variant="default"
-                  size="icon"
-                  className="rounded-full bg-youorganic-green hover:bg-youorganic-green/90"
-                  onClick={handleAddToCart}
-              >
-                <ShoppingCart size={18} />
-              </Button>
-            </div>
-          </div>
-        </div>
+
+        <span className="block text-lg font-semibold text-youorganic-green mb-3">
+          ${product.price.toFixed(2)}
+        </span>
+
+        <Button
+          onClick={handleAddToCart}
+          className="w-full sm:w-auto min-h-[44px] bg-youorganic-green hover:bg-youorganic-green/90 text-white rounded-lg flex items-center justify-center gap-2"
+        >
+          <ShoppingCart size={18} />
+          <span>Agregar al carrito</span>
+        </Button>
       </div>
+    </motion.div>
   );
 };
 

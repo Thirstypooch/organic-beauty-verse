@@ -28,3 +28,4 @@ repomix-output.xml
 .env/*
 repomix-output-frontend.xml
 public/
+!public/products/
