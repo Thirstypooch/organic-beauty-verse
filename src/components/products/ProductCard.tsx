@@ -25,8 +25,8 @@ const ProductCard = ({ product, categoryName }: ProductCardProps) => {
     e.preventDefault();
     e.stopPropagation();
     addToCart(product);
-    toast.success("Added to cart", {
-      description: `${product.name} has been added to your cart.`,
+    toast.success("Agregado al carrito", {
+      description: `${product.name} se agregó a tu carrito.`,
     });
   };
 
@@ -34,8 +34,8 @@ const ProductCard = ({ product, categoryName }: ProductCardProps) => {
     e.preventDefault();
     e.stopPropagation();
     addToWishlist(product);
-    toast.success("Added to wishlist", {
-      description: `${product.name} has been added to your wishlist.`,
+    toast.success("Agregado a favoritos", {
+      description: `${product.name} se agregó a tu lista de deseos.`,
     });
   };
 

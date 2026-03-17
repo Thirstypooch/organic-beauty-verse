@@ -1,27 +1,26 @@
-
 import { LeafIcon, Heart, Droplets, Check } from "lucide-react";
 
 const BenefitsBanner = () => {
   const benefits = [
     {
       icon: <LeafIcon className="h-6 w-6" />,
-      title: "100% Organic",
-      description: "All ingredients sourced from certified organic farms"
+      title: "100% Orgánico",
+      description: "Ingredientes provenientes de granjas orgánicas certificadas"
     },
     {
       icon: <Heart className="h-6 w-6" />,
-      title: "Cruelty-Free",
-      description: "Never tested on animals, only on willing human volunteers"
+      title: "Libre de Crueldad",
+      description: "Nunca probado en animales, solo en voluntarios humanos"
     },
     {
       icon: <Droplets className="h-6 w-6" />,
-      title: "No Harmful Chemicals",
-      description: "Free from parabens, sulfates and synthetic fragrances"
+      title: "Sin Químicos Dañinos",
+      description: "Libre de parabenos, sulfatos y fragancias sintéticas"
     },
     {
       icon: <Check className="h-6 w-6" />,
-      title: "Sustainable",
-      description: "Eco-friendly packaging and responsible manufacturing"
+      title: "Sustentable",
+      description: "Empaques ecológicos y manufactura responsable"
     }
   ];
 

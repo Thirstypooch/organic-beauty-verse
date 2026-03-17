@@ -79,7 +79,7 @@ const ProductListing = () => {
   if (isError) {
     return (
         <div className="container mx-auto px-4 py-12 text-center">
-          <p className="text-red-500">Failed to load products. Please try again later.</p>
+          <p className="text-red-500">Error al cargar los productos. Intenta de nuevo más tarde.</p>
         </div>
     );
   }
@@ -103,15 +103,15 @@ const ProductListing = () => {
                 onClick={() => setIsFilterOpen(!isFilterOpen)}
             >
               <FilterIcon size={18} />
-              {isFilterOpen ? "Hide Filters" : "Show Filters"}
+              {isFilterOpen ? "Ocultar Filtros" : "Mostrar Filtros"}
             </Button>
           </div>
 
           <aside className={`w-full lg:w-64 ${isFilterOpen ? 'block' : 'hidden'} lg:block transition-all`}>
             <div className="bg-white p-6 rounded-lg shadow-md">
-              <h2 className="font-serif text-xl font-semibold mb-4 text-youorganic-dark">Filters</h2>
+              <h2 className="font-serif text-xl font-semibold mb-4 text-youorganic-dark">Filtros</h2>
               <div className="mb-6">
-                <h3 className="font-medium mb-3 text-youorganic-dark">Price Range</h3>
+                <h3 className="font-medium mb-3 text-youorganic-dark">Rango de Precio</h3>
                 <Slider
                     value={localPriceRange}
                     max={100}
@@ -132,17 +132,17 @@ const ProductListing = () => {
           <div className="flex-1">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
               <p className="text-youorganic-dark mb-4 sm:mb-0">
-                Showing {sortedProducts.length} products
+                Mostrando {sortedProducts.length} productos
               </p>
               <Select onValueChange={handleSortChange} defaultValue={filters.sortBy}>
                 <SelectTrigger className="w-full sm:w-[180px] border-youorganic-light-green">
-                  <SelectValue placeholder="Sort by" />
+                  <SelectValue placeholder="Ordenar por" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="name-asc">Name (A-Z)</SelectItem>
-                  <SelectItem value="name-desc">Name (Z-A)</SelectItem>
-                  <SelectItem value="price-asc">Price (Low to High)</SelectItem>
-                  <SelectItem value="price-desc">Price (High to Low)</SelectItem>
+                  <SelectItem value="name-asc">Nombre (A-Z)</SelectItem>
+                  <SelectItem value="name-desc">Nombre (Z-A)</SelectItem>
+                  <SelectItem value="price-asc">Precio (Menor a Mayor)</SelectItem>
+                  <SelectItem value="price-desc">Precio (Mayor a Menor)</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -159,9 +159,9 @@ const ProductListing = () => {
                 </div>
             ) : sortedProducts.length === 0 ? (
                 <div className="bg-white p-8 rounded-lg text-center">
-                  <p className="text-youorganic-dark mb-2">No products found</p>
+                  <p className="text-youorganic-dark mb-2">No se encontraron productos</p>
                   <p className="text-youorganic-dark/70 text-sm">
-                    Try adjusting your filters or check out our other categories.
+                    Intenta ajustar los filtros o explora nuestras otras categorías.
                   </p>
                 </div>
             ) : (
@@ -170,7 +170,7 @@ const ProductListing = () => {
                       <ProductCard
                           key={product.id}
                           product={product}
-                          categoryName={categoryData?.name || 'Category'}
+                          categoryName={categoryData?.name || 'Categoría'}
                       />
                   ))}
                 </div>

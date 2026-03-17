@@ -1,4 +1,3 @@
-
 import { useWishlistStore } from "@/stores/wishlistStore";
 import { useCartStore } from "@/stores/cartStore";
 import { Button } from "@/components/ui/button";
@@ -11,19 +10,19 @@ const WishlistPage = () => {
   const { wishlist, removeFromWishlist, clearWishlist } = useWishlistStore();
   const addToCart = useCartStore((state) => state.addToCart);
 
-  const handleRemoveItem = (productId: string) => {
+  const handleRemoveItem = (productId: number) => {
     removeFromWishlist(productId);
   };
 
-  const handleAddToCart = (productId: string) => {
+  const handleAddToCart = (productId: number) => {
     const product = wishlist.items.find(
       (item) => item.product.id === productId
     )?.product;
 
     if (product) {
       addToCart(product);
-      toast.success("Added to cart", {
-        description: `${product.name} has been added to your cart.`,
+      toast.success("Agregado al carrito", {
+        description: `${product.name} se agregó a tu carrito.`,
       });
     }
   };
@@ -38,16 +37,16 @@ const WishlistPage = () => {
             </div>
           </div>
           <h1 className="font-serif text-2xl font-bold mb-4 text-youorganic-dark">
-            Your Wishlist is Empty
+            Tu Lista de Deseos está Vacía
           </h1>
           <p className="text-youorganic-dark/70 mb-6">
-            Save your favorite products here to make them easier to find later.
+            Guarda tus productos favoritos aquí para encontrarlos más fácilmente.
           </p>
           <Button
             asChild
             className="bg-youorganic-green hover:bg-youorganic-green/90 text-white"
           >
-            <Link to="/">Browse Products</Link>
+            <Link to="/">Explorar Productos</Link>
           </Button>
         </div>
       </div>
@@ -57,16 +56,16 @@ const WishlistPage = () => {
   return (
     <div className="container mx-auto px-4 py-8 md:py-12">
       <h1 className="font-serif text-3xl font-bold mb-8 text-youorganic-green">
-        My Wishlist
+        Mi Lista de Deseos
       </h1>
 
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
         <div className="p-6">
           <div className="hidden md:grid md:grid-cols-12 text-sm font-medium text-youorganic-dark/70 mb-4">
-            <span className="col-span-6">Product</span>
-            <span className="col-span-2 text-center">Price</span>
-            <span className="col-span-2 text-center">Date Added</span>
-            <span className="col-span-2 text-right">Actions</span>
+            <span className="col-span-6">Producto</span>
+            <span className="col-span-2 text-center">Precio</span>
+            <span className="col-span-2 text-center">Fecha</span>
+            <span className="col-span-2 text-right">Acciones</span>
           </div>
 
           <Separator className="mb-6 bg-youorganic-light-green/30" />
@@ -75,36 +74,23 @@ const WishlistPage = () => {
             <div key={item.product.id} className="mb-6">
               <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
                 <div className="col-span-6 flex items-center space-x-4">
-                  <Link
-                    to={`/products/${item.product.category.toLowerCase()}/${
-                      item.product.id
-                    }`}
-                    className="w-20 h-20 bg-youorganic-cream rounded-md overflow-hidden"
-                  >
+                  <div className="w-20 h-20 bg-youorganic-cream rounded-md overflow-hidden">
                     <img
-                      src={item.product.imageUrl}
+                      src={item.product.imageUrl || "https://via.placeholder.com/100"}
                       alt={item.product.name}
                       className="w-full h-full object-cover"
                     />
-                  </Link>
+                  </div>
                   <div>
-                    <Link
-                      to={`/products/${item.product.category.toLowerCase()}/${
-                        item.product.id
-                      }`}
-                      className="font-medium text-youorganic-dark hover:text-youorganic-green transition-colors line-clamp-2"
-                    >
+                    <span className="font-medium text-youorganic-dark line-clamp-2">
                       {item.product.name}
-                    </Link>
-                    <div className="text-youorganic-light-brown text-sm">
-                      {item.product.category}
-                    </div>
+                    </span>
                   </div>
                 </div>
 
                 <div className="col-span-2 md:text-center">
                   <span className="md:hidden text-youorganic-dark/70 text-sm">
-                    Price:
+                    Precio:
                   </span>
                   <span className="font-medium text-youorganic-green">
                     ${item.product.price.toFixed(2)}
@@ -113,10 +99,10 @@ const WishlistPage = () => {
 
                 <div className="col-span-2 md:text-center">
                   <span className="md:hidden text-youorganic-dark/70 text-sm">
-                    Date Added:
+                    Fecha:
                   </span>
                   <span className="text-youorganic-dark/70 text-sm">
-                    {new Date(item.addedAt).toLocaleDateString()}
+                    {new Date(item.addedAt).toLocaleDateString('es')}
                   </span>
                 </div>
 
@@ -128,7 +114,7 @@ const WishlistPage = () => {
                     onClick={() => handleAddToCart(item.product.id)}
                   >
                     <ShoppingCart size={16} className="mr-1" />
-                    <span className="hidden sm:inline">Add to Cart</span>
+                    <span className="hidden sm:inline">Agregar</span>
                   </Button>
                   <Button
                     variant="ghost"
@@ -153,14 +139,14 @@ const WishlistPage = () => {
             className="border-youorganic-green text-youorganic-green hover:bg-youorganic-green/10"
             onClick={() => clearWishlist()}
           >
-            Clear Wishlist
+            Vaciar Lista
           </Button>
           <Button
             asChild
             variant="outline"
             className="border-youorganic-green text-youorganic-green hover:bg-youorganic-green/10"
           >
-            <Link to="/">Continue Shopping</Link>
+            <Link to="/">Seguir Comprando</Link>
           </Button>
         </div>
       </div>

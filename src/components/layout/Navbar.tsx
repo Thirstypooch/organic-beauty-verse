@@ -1,22 +1,31 @@
-
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Search, ShoppingCart, Heart, Menu, X } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { Search, ShoppingCart, Heart, Menu, X, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCartStore } from "@/stores/cartStore";
 import { useWishlistStore } from "@/stores/wishlistStore";
+import { useAuthStore } from "@/stores/authStore";
 import { Badge } from "@/components/ui/badge";
-import { getAllCategories } from "@/data/mockProducts";
+import { fetchCategories } from "@/services/api";
+import { toast } from "@/components/ui/sonner";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const totalItems = useCartStore((state) => state.getTotalItems());
   const wishlistItems = useWishlistStore((state) => state.wishlist.items.length);
-  const categories = getAllCategories();
+  const user = useAuthStore((state) => state.user);
+  const logout = useAuthStore((state) => state.logout);
+  const navigate = useNavigate();
 
-  // Handle scroll event for navbar styling
+  const { data: categories = [] } = useQuery({
+    queryKey: ['categories'],
+    queryFn: fetchCategories,
+    staleTime: 1000 * 60 * 10,
+  });
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 0);
@@ -27,6 +36,13 @@ const Navbar = () => {
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleLogout = () => {
+    logout();
+    toast.success("Sesión cerrada correctamente");
+    navigate("/");
+    setIsMenuOpen(false);
   };
 
   return (
@@ -50,7 +66,7 @@ const Navbar = () => {
               to="/"
               className="text-youorganic-dark hover:text-youorganic-green transition-colors"
             >
-              Home
+              Inicio
             </Link>
             {categories.slice(0, 4).map((category) => (
               <Link
@@ -65,7 +81,7 @@ const Navbar = () => {
               to="/assistant"
               className="text-youorganic-dark hover:text-youorganic-green transition-colors"
             >
-              Beauty Assistant
+              Asistente de Belleza
             </Link>
           </nav>
 
@@ -76,7 +92,7 @@ const Navbar = () => {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-youorganic-dark/60" size={18} />
                 <Input
                   type="search"
-                  placeholder="Search products..."
+                  placeholder="Buscar productos..."
                   className="w-full pl-10 pr-4 h-9 rounded-full bg-youorganic-cream border-youorganic-light-green focus:border-youorganic-green"
                 />
               </div>
@@ -104,6 +120,31 @@ const Navbar = () => {
               )}
             </Link>
 
+            {/* Auth: user menu or login link */}
+            <div className="hidden md:flex items-center gap-2">
+              {user ? (
+                <>
+                  <span className="text-sm text-youorganic-dark truncate max-w-[120px]">
+                    {user.name}
+                  </span>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={handleLogout}
+                    title="Cerrar sesión"
+                  >
+                    <LogOut size={20} className="text-youorganic-dark hover:text-youorganic-green" />
+                  </Button>
+                </>
+              ) : (
+                <Link to="/login">
+                  <Button variant="ghost" size="icon" title="Iniciar sesión">
+                    <User size={24} className="text-youorganic-dark hover:text-youorganic-green" />
+                  </Button>
+                </Link>
+              )}
+            </div>
+
             {/* Mobile menu button */}
             <Button
               variant="ghost"
@@ -126,7 +167,7 @@ const Navbar = () => {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-youorganic-dark/60" size={18} />
                 <Input
                   type="search"
-                  placeholder="Search products..."
+                  placeholder="Buscar productos..."
                   className="w-full pl-10 pr-4 h-9 rounded-full bg-youorganic-cream border-youorganic-light-green focus:border-youorganic-green"
                 />
               </div>
@@ -135,7 +176,7 @@ const Navbar = () => {
                 className="py-2 text-youorganic-dark hover:text-youorganic-green transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Home
+                Inicio
               </Link>
               {categories.map((category) => (
                 <Link
@@ -152,8 +193,35 @@ const Navbar = () => {
                 className="py-2 text-youorganic-dark hover:text-youorganic-green transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Beauty Assistant
+                Asistente de Belleza
               </Link>
+
+              {/* Mobile auth section */}
+              <div className="border-t border-gray-100 pt-4">
+                {user ? (
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-youorganic-dark">{user.name}</span>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleLogout}
+                      className="text-youorganic-dark hover:text-youorganic-green"
+                    >
+                      <LogOut size={18} className="mr-2" />
+                      Cerrar sesión
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="flex gap-2">
+                    <Link to="/login" className="flex-1" onClick={() => setIsMenuOpen(false)}>
+                      <Button variant="outline" className="w-full">Iniciar Sesión</Button>
+                    </Link>
+                    <Link to="/register" className="flex-1" onClick={() => setIsMenuOpen(false)}>
+                      <Button className="w-full bg-youorganic-green hover:bg-youorganic-green/90">Registrarse</Button>
+                    </Link>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

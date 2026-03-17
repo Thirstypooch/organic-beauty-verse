@@ -1,6 +1,6 @@
 
 import { create } from "zustand";
-import { ProductFilter, SortOption } from "../types/product";
+import { ProductFilter, SortOption } from "@/lib/schemas";
 
 interface FilterState {
   filters: ProductFilter;

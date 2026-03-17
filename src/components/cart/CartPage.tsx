@@ -1,4 +1,3 @@
-
 import { useCartStore } from "@/stores/cartStore";
 import { Button } from "@/components/ui/button";
 import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
@@ -8,12 +7,12 @@ import { Separator } from "@/components/ui/separator";
 const CartPage = () => {
   const { cart, removeFromCart, updateQuantity, clearCart, getTotal } = useCartStore();
 
-  const handleQuantityChange = (productId: string, newQuantity: number) => {
+  const handleQuantityChange = (productId: number, newQuantity: number) => {
     if (newQuantity < 1) return;
     updateQuantity(productId, newQuantity);
   };
 
-  const handleRemoveItem = (productId: string) => {
+  const handleRemoveItem = (productId: number) => {
     removeFromCart(productId);
   };
 
@@ -31,16 +30,16 @@ const CartPage = () => {
             </div>
           </div>
           <h1 className="font-serif text-2xl font-bold mb-4 text-youorganic-dark">
-            Your Cart is Empty
+            Tu Carrito está Vacío
           </h1>
           <p className="text-youorganic-dark/70 mb-6">
-            Looks like you haven't added any products to your cart yet.
+            Parece que aún no has agregado productos a tu carrito.
           </p>
           <Button
             asChild
             className="bg-youorganic-green hover:bg-youorganic-green/90 text-white"
           >
-            <Link to="/">Continue Shopping</Link>
+            <Link to="/">Seguir Comprando</Link>
           </Button>
         </div>
       </div>
@@ -50,7 +49,7 @@ const CartPage = () => {
   return (
     <div className="container mx-auto px-4 py-8 md:py-12">
       <h1 className="font-serif text-3xl font-bold mb-8 text-youorganic-green">
-        Shopping Cart
+        Carrito de Compras
       </h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -59,9 +58,9 @@ const CartPage = () => {
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
             <div className="p-6">
               <div className="hidden md:grid md:grid-cols-5 text-sm font-medium text-youorganic-dark/70 mb-4">
-                <span className="col-span-2">Product</span>
-                <span className="text-center">Price</span>
-                <span className="text-center">Quantity</span>
+                <span className="col-span-2">Producto</span>
+                <span className="text-center">Precio</span>
+                <span className="text-center">Cantidad</span>
                 <span className="text-right">Total</span>
               </div>
 
@@ -71,32 +70,23 @@ const CartPage = () => {
                 <div key={item.product.id} className="mb-6">
                   <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
                     <div className="col-span-2 flex items-center space-x-4">
-                      <Link 
-                        to={`/products/${item.product.category.toLowerCase()}/${item.product.id}`}
-                        className="w-20 h-20 bg-youorganic-cream rounded-md overflow-hidden"
-                      >
+                      <div className="w-20 h-20 bg-youorganic-cream rounded-md overflow-hidden">
                         <img
-                          src={item.product.imageUrl}
+                          src={item.product.imageUrl || "https://via.placeholder.com/100"}
                           alt={item.product.name}
                           className="w-full h-full object-cover"
                         />
-                      </Link>
+                      </div>
                       <div>
-                        <Link 
-                          to={`/products/${item.product.category.toLowerCase()}/${item.product.id}`}
-                          className="font-medium text-youorganic-dark hover:text-youorganic-green transition-colors line-clamp-2"
-                        >
+                        <span className="font-medium text-youorganic-dark line-clamp-2">
                           {item.product.name}
-                        </Link>
-                        <div className="text-youorganic-light-brown text-sm">
-                          {item.product.category}
-                        </div>
+                        </span>
                       </div>
                     </div>
 
                     <div className="md:text-center">
                       <span className="md:hidden text-youorganic-dark/70 text-sm">
-                        Price:
+                        Precio:
                       </span>
                       <span className="font-medium text-youorganic-green">
                         {formatCurrency(item.product.price)}
@@ -138,7 +128,7 @@ const CartPage = () => {
                         <button
                           onClick={() => handleRemoveItem(item.product.id)}
                           className="ml-3 p-1 text-youorganic-dark/70 hover:text-youorganic-green"
-                          aria-label="Remove item"
+                          aria-label="Eliminar producto"
                         >
                           <Trash2 size={18} />
                         </button>
@@ -158,14 +148,14 @@ const CartPage = () => {
                 className="border-youorganic-green text-youorganic-green hover:bg-youorganic-green/10"
                 onClick={() => clearCart()}
               >
-                Clear Cart
+                Vaciar Carrito
               </Button>
               <Button
                 asChild
                 variant="outline"
                 className="border-youorganic-green text-youorganic-green hover:bg-youorganic-green/10"
               >
-                <Link to="/">Continue Shopping</Link>
+                <Link to="/">Seguir Comprando</Link>
               </Button>
             </div>
           </div>
@@ -175,7 +165,7 @@ const CartPage = () => {
         <div className="lg:col-span-1">
           <div className="bg-white rounded-lg shadow-md p-6">
             <h2 className="font-serif text-xl font-semibold mb-4 text-youorganic-dark">
-              Order Summary
+              Resumen del Pedido
             </h2>
 
             <div className="space-y-3 mb-6">
@@ -184,8 +174,8 @@ const CartPage = () => {
                 <span>{formatCurrency(getTotal())}</span>
               </div>
               <div className="flex justify-between text-youorganic-dark">
-                <span>Shipping</span>
-                <span>Calculated at checkout</span>
+                <span>Envío</span>
+                <span>Se calcula al finalizar</span>
               </div>
               <Separator className="my-3 bg-youorganic-light-green/30" />
               <div className="flex justify-between font-semibold text-youorganic-dark">
@@ -198,7 +188,7 @@ const CartPage = () => {
               asChild
               className="w-full bg-youorganic-green hover:bg-youorganic-green/90 text-white"
             >
-              <Link to="/checkout">Proceed to Checkout</Link>
+              <Link to="/checkout">Proceder al Pago</Link>
             </Button>
           </div>
         </div>

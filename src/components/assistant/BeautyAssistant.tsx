@@ -1,13 +1,11 @@
-
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Send } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import ProductCard from "../products/ProductCard";
-import { Product } from "@/types/product";
-import { products } from "@/data/mockProducts";
+import { Product } from "@/lib/schemas";
+import { fetchProducts, fetchCategories } from "@/services/api";
 
 type Message = {
   role: "user" | "assistant";
@@ -21,17 +19,30 @@ const BeautyAssistant = () => {
     {
       role: "assistant",
       content:
-        "👋 Hello! I'm your YouOrganic AI Beauty Assistant. How can I help you find the perfect skincare products today? You can ask me about:  \n\n- Products for specific skin concerns\n- Recommendations based on your skin type\n- Advice for creating a skincare routine\n- Information about ingredients\n\nI'm here to help you find your perfect match!",
+        "¡Hola! Soy tu Asistente de Belleza YouOrganic. ¿Cómo puedo ayudarte a encontrar los productos de skincare perfectos hoy? Puedes preguntarme sobre:\n\n- Productos para preocupaciones específicas de la piel\n- Recomendaciones según tu tipo de piel\n- Consejos para crear una rutina de skincare\n- Información sobre ingredientes\n\n¡Estoy aquí para ayudarte a encontrar tu combinación perfecta!",
       timestamp: new Date(),
     },
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const { data: allProducts = [] } = useQuery({
+    queryKey: ['products'],
+    queryFn: () => fetchProducts(),
+  });
+
+  const { data: categories = [] } = useQuery({
+    queryKey: ['categories'],
+    queryFn: fetchCategories,
+  });
+
+  const getCategoryName = (categoryId: number) => {
+    return categories.find((c) => c.id === categoryId)?.name || "Productos";
+  };
+
   const handleSendMessage = () => {
     if (!input.trim()) return;
 
-    // Add user message
     const userMessage: Message = {
       role: "user",
       content: input,
@@ -42,65 +53,62 @@ const BeautyAssistant = () => {
     setInput("");
     setIsLoading(true);
 
-    // Simulate AI response after a delay
     setTimeout(() => {
       let response: Message;
       let recommendedProducts: Product[] = [];
 
-      // Simple keyword based recommendation
       const lowercaseInput = input.toLowerCase();
 
-      if (lowercaseInput.includes("dry skin") || lowercaseInput.includes("hydrat")) {
-        recommendedProducts = products.filter(
-          (p) => 
-            p.name.includes("Hydrating") || 
-            p.name.includes("Body Butter") || 
-            p.description.toLowerCase().includes("hydrat")
+      if (lowercaseInput.includes("seca") || lowercaseInput.includes("dry skin") || lowercaseInput.includes("hidrat")) {
+        recommendedProducts = allProducts.filter(
+          (p) =>
+            p.description.toLowerCase().includes("hidrat") ||
+            p.name.toLowerCase().includes("aloe") ||
+            p.name.toLowerCase().includes("óleo")
         ).slice(0, 2);
-        
+
         response = {
           role: "assistant",
-          content: `For dry skin, I recommend products with rich moisturizing ingredients like shea butter and hyaluronic acid. These will help restore your skin's moisture barrier and provide long-lasting hydration.`,
+          content: `Para piel seca, te recomiendo productos con ingredientes hidratantes ricos como ácido hialurónico y aceites orgánicos. Estos ayudarán a restaurar la barrera de humedad de tu piel y proporcionarán hidratación duradera.`,
           timestamp: new Date(),
           products: recommendedProducts,
         };
-      } else if (lowercaseInput.includes("oily skin") || lowercaseInput.includes("acne") || lowercaseInput.includes("breakout")) {
-        recommendedProducts = products.filter(
-          (p) => 
-            p.name.includes("Clay") || 
-            p.name.includes("Gentle Facial Cleanser") || 
-            p.description.toLowerCase().includes("oil")
+      } else if (lowercaseInput.includes("acné") || lowercaseInput.includes("acne") || lowercaseInput.includes("oily")) {
+        recommendedProducts = allProducts.filter(
+          (p) =>
+            p.name.toLowerCase().includes("acné") ||
+            p.name.toLowerCase().includes("acne") ||
+            p.name.toLowerCase().includes("cleanser")
         ).slice(0, 2);
-        
+
         response = {
           role: "assistant",
-          content: `For oily or acne-prone skin, I recommend products that help control excess oil while maintaining your skin's natural balance. Look for non-comedogenic formulas with ingredients like clay or tea tree oil.`,
+          content: `Para piel con tendencia al acné, te recomiendo nuestros tratamientos especializados que ayudan a controlar el exceso de grasa mientras mantienen el equilibrio natural de tu piel.`,
           timestamp: new Date(),
           products: recommendedProducts,
         };
-      } else if (lowercaseInput.includes("anti-aging") || lowercaseInput.includes("wrinkle") || lowercaseInput.includes("fine line")) {
-        recommendedProducts = products.filter(
-          (p) => 
-            p.name.includes("Anti-Aging") || 
-            p.name.includes("Vitamin C") || 
-            p.description.toLowerCase().includes("fine line")
+      } else if (lowercaseInput.includes("anti") || lowercaseInput.includes("arrugas") || lowercaseInput.includes("aging")) {
+        recommendedProducts = allProducts.filter(
+          (p) =>
+            p.name.toLowerCase().includes("antiaging") ||
+            p.name.toLowerCase().includes("retinol") ||
+            p.name.toLowerCase().includes("vita-c")
         ).slice(0, 2);
-        
+
         response = {
           role: "assistant",
-          content: `For anti-aging concerns, I recommend products rich in antioxidants like vitamin C and peptides. These ingredients help reduce the appearance of fine lines and support collagen production for firmer skin.`,
+          content: `Para preocupaciones anti-envejecimiento, te recomiendo productos ricos en antioxidantes como vitamina C y retinol. Estos ingredientes ayudan a reducir la apariencia de líneas finas y estimulan la producción de colágeno.`,
           timestamp: new Date(),
           products: recommendedProducts,
         };
       } else {
-        // Default response with random products
-        recommendedProducts = [...products]
+        recommendedProducts = [...allProducts]
           .sort(() => 0.5 - Math.random())
           .slice(0, 2);
-        
+
         response = {
           role: "assistant",
-          content: `I'd love to help you find the perfect skincare products! Could you tell me more about your skin type and concerns? This will help me make more personalized recommendations for your needs.`,
+          content: `¡Me encantaría ayudarte a encontrar los productos de skincare perfectos! ¿Podrías contarme más sobre tu tipo de piel y tus preocupaciones? Esto me ayudará a hacer recomendaciones más personalizadas.`,
           timestamp: new Date(),
           products: recommendedProducts,
         };
@@ -126,7 +134,7 @@ const BeautyAssistant = () => {
     <div className="container mx-auto px-4 py-8 md:py-12">
       <div className="max-w-4xl mx-auto">
         <h1 className="font-serif text-3xl font-bold mb-8 text-youorganic-green">
-          AI Beauty Assistant
+          Asistente de Belleza IA
         </h1>
 
         <Card className="border-youorganic-light-green mb-4">
@@ -135,10 +143,10 @@ const BeautyAssistant = () => {
               <div className="w-10 h-10 rounded-full bg-youorganic-green flex items-center justify-center text-white">
                 <span className="font-serif font-bold">YO</span>
               </div>
-              <span className="ml-3 font-medium">YouOrganic Beauty Assistant</span>
+              <span className="ml-3 font-medium">Asistente de Belleza YouOrganic</span>
             </div>
             <span className="text-sm text-youorganic-dark/70">
-              Ready to help
+              Lista para ayudarte
             </span>
           </div>
 
@@ -168,10 +176,10 @@ const BeautyAssistant = () => {
                         <div key={product.id} className="bg-white rounded-lg p-3 shadow-sm">
                           <div className="flex space-x-3">
                             <div className="w-16 h-16 rounded-md overflow-hidden flex-shrink-0">
-                              <img 
-                                src={product.imageUrl} 
+                              <img
+                                src={product.imageUrl || "https://via.placeholder.com/100"}
                                 alt={product.name}
-                                className="w-full h-full object-cover" 
+                                className="w-full h-full object-cover"
                               />
                             </div>
                             <div>
@@ -187,8 +195,8 @@ const BeautyAssistant = () => {
                                 size="sm"
                                 className="w-full bg-youorganic-green hover:bg-youorganic-green/90 text-white text-xs py-1"
                               >
-                                <a href={`/products/${product.category.toLowerCase()}/${product.id}`}>
-                                  View Details
+                                <a href={`/products/${getCategoryName(product.categoryId).toLowerCase()}/${product.id}`}>
+                                  Ver Detalles
                                 </a>
                               </Button>
                             </div>
@@ -222,7 +230,7 @@ const BeautyAssistant = () => {
           <div className="p-4 border-t border-youorganic-light-green">
             <div className="flex space-x-2">
               <Textarea
-                placeholder="Ask me about skincare products..."
+                placeholder="Pregúntame sobre productos de skincare..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
@@ -238,8 +246,8 @@ const BeautyAssistant = () => {
               </Button>
             </div>
             <p className="text-xs text-youorganic-dark/60 mt-2">
-              Our AI assistant provides recommendations based on your input. For
-              personalized advice, we recommend consulting with a skincare specialist.
+              Nuestro asistente IA ofrece recomendaciones basadas en tu consulta. Para
+              asesoría personalizada, recomendamos consultar con un especialista en skincare.
             </p>
           </div>
         </Card>

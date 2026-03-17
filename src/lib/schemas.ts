@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-// Schema for a single Category based on product-service/models/Category.kt
+// Schema for a single Category based on the Laravel CategoryResource
 export const categorySchema = z.object({
     id: z.number(),
     name: z.string(),
@@ -9,8 +9,8 @@ export const categorySchema = z.object({
 });
 export type Category = z.infer<typeof categorySchema>;
 
-// Schema for a single Product based on product-service/models/Product.kt
-// Note: price is a number here, as it's converted from BigDecimal in the service.
+// Schema for a single Product based on the Laravel ProductResource
+// Note: price is a number (float cast in the API Resource).
 export const productSchema = z.object({
     id: z.number(),
     externalId: z.string().nullable(),
@@ -24,7 +24,7 @@ export const productSchema = z.object({
 });
 export type Product = z.infer<typeof productSchema>;
 
-// Schema for the User model, based on user-service/models/User.php
+// Schema for the User model
 export const userSchema = z.object({
     id: z.number(),
     name: z.string(),
@@ -53,15 +53,15 @@ export interface ProductFilter {
 }
 
 export const registerFormSchema = z.object({
-    name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-    email: z.string().email({ message: "Please enter a valid email address." }),
-    password: z.string().min(8, { message: "Password must be at least 8 characters." }),
+    name: z.string().min(2, { message: "El nombre debe tener al menos 2 caracteres." }),
+    email: z.string().email({ message: "Por favor ingresa un correo electrónico válido." }),
+    password: z.string().min(8, { message: "La contraseña debe tener al menos 8 caracteres." }),
 });
 export type RegisterFormData = z.infer<typeof registerFormSchema>;
 
 // Schema for the login form
 export const loginFormSchema = z.object({
-    email: z.string().email({ message: "Please enter a valid email address." }),
-    password: z.string().min(1, { message: "Password is required." }),
+    email: z.string().email({ message: "Por favor ingresa un correo electrónico válido." }),
+    password: z.string().min(1, { message: "La contraseña es obligatoria." }),
 });
 export type LoginFormData = z.infer<typeof loginFormSchema>;

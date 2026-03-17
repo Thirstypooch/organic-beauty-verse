@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Heart, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,9 +10,8 @@ const Footer = () => {
 
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real implementation, we would send this to an API
-    toast.success("Thank you for subscribing to our newsletter!", {
-      description: "You'll receive updates on our latest products and offers.",
+    toast.success("Gracias por suscribirte a nuestro boletín!", {
+      description: "Recibirás novedades sobre nuestros últimos productos y ofertas.",
     });
     setEmail("");
   };
@@ -22,26 +20,26 @@ const Footer = () => {
     <footer className="bg-youorganic-cream pt-12 pb-6">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* About Us */}
+          {/* Sobre Nosotros */}
           <div>
             <h3 className="font-serif text-xl font-medium mb-4 text-youorganic-green">
-              About YouOrganic
+              Sobre YouOrganic
             </h3>
             <p className="text-youorganic-dark mb-4">
-              We craft premium organic skincare products using natural ingredients.
-              Our mission is to provide effective, sustainable beauty solutions.
+              Creamos productos premium de skincare orgánico con ingredientes naturales.
+              Nuestra misión es ofrecer soluciones de belleza efectivas y sustentables.
             </p>
             <div className="flex items-center">
-              <span className="text-sm text-youorganic-dark">Made with</span>
+              <span className="text-sm text-youorganic-dark">Hecho con</span>
               <Heart size={16} className="mx-1 text-youorganic-green" />
-              <span className="text-sm text-youorganic-dark">for your skin</span>
+              <span className="text-sm text-youorganic-dark">para tu piel</span>
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Enlaces Rápidos */}
           <div>
             <h3 className="font-serif text-xl font-medium mb-4 text-youorganic-green">
-              Quick Links
+              Enlaces Rápidos
             </h3>
             <ul className="space-y-2">
               <li>
@@ -49,7 +47,7 @@ const Footer = () => {
                   to="/"
                   className="text-youorganic-dark hover:text-youorganic-green transition-colors"
                 >
-                  Home
+                  Inicio
                 </Link>
               </li>
               <li>
@@ -57,7 +55,7 @@ const Footer = () => {
                   to="/products/facial"
                   className="text-youorganic-dark hover:text-youorganic-green transition-colors"
                 >
-                  Shop All
+                  Tienda
                 </Link>
               </li>
               <li>
@@ -65,7 +63,7 @@ const Footer = () => {
                   to="/assistant"
                   className="text-youorganic-dark hover:text-youorganic-green transition-colors"
                 >
-                  Beauty Assistant
+                  Asistente de Belleza
                 </Link>
               </li>
               <li>
@@ -73,7 +71,7 @@ const Footer = () => {
                   to="/about"
                   className="text-youorganic-dark hover:text-youorganic-green transition-colors"
                 >
-                  About Us
+                  Sobre Nosotros
                 </Link>
               </li>
               <li>
@@ -81,16 +79,16 @@ const Footer = () => {
                   to="/contact"
                   className="text-youorganic-dark hover:text-youorganic-green transition-colors"
                 >
-                  Contact
+                  Contacto
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Customer Care */}
+          {/* Atención al Cliente */}
           <div>
             <h3 className="font-serif text-xl font-medium mb-4 text-youorganic-green">
-              Customer Care
+              Atención al Cliente
             </h3>
             <ul className="space-y-2">
               <li>
@@ -98,7 +96,7 @@ const Footer = () => {
                   to="/shipping"
                   className="text-youorganic-dark hover:text-youorganic-green transition-colors"
                 >
-                  Shipping Information
+                  Información de Envío
                 </Link>
               </li>
               <li>
@@ -106,7 +104,7 @@ const Footer = () => {
                   to="/returns"
                   className="text-youorganic-dark hover:text-youorganic-green transition-colors"
                 >
-                  Returns & Refunds
+                  Devoluciones y Reembolsos
                 </Link>
               </li>
               <li>
@@ -114,7 +112,7 @@ const Footer = () => {
                   to="/faq"
                   className="text-youorganic-dark hover:text-youorganic-green transition-colors"
                 >
-                  FAQ
+                  Preguntas Frecuentes
                 </Link>
               </li>
               <li>
@@ -122,7 +120,7 @@ const Footer = () => {
                   to="/privacy"
                   className="text-youorganic-dark hover:text-youorganic-green transition-colors"
                 >
-                  Privacy Policy
+                  Política de Privacidad
                 </Link>
               </li>
               <li>
@@ -130,37 +128,37 @@ const Footer = () => {
                   to="/terms"
                   className="text-youorganic-dark hover:text-youorganic-green transition-colors"
                 >
-                  Terms of Service
+                  Términos de Servicio
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Newsletter */}
+          {/* Boletín */}
           <div>
             <h3 className="font-serif text-xl font-medium mb-4 text-youorganic-green">
-              Newsletter
+              Boletín
             </h3>
             <p className="text-youorganic-dark mb-4">
-              Subscribe to receive updates, access to exclusive deals, and more.
+              Suscríbete para recibir novedades, acceso a ofertas exclusivas y más.
             </p>
             <form onSubmit={handleNewsletterSubmit} className="space-y-3">
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-youorganic-dark/60" size={18} />
                 <Input
                   type="email"
-                  placeholder="Your email address"
+                  placeholder="Tu correo electrónico"
                   className="w-full pl-10 pr-4 py-2 rounded-full border-youorganic-light-green focus:border-youorganic-green"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />
               </div>
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 className="w-full bg-youorganic-green hover:bg-youorganic-green/90 text-white"
               >
-                Subscribe
+                Suscribirse
               </Button>
             </form>
           </div>
@@ -168,7 +166,7 @@ const Footer = () => {
 
         <div className="border-t border-youorganic-light-brown/30 mt-8 pt-6 text-center">
           <p className="text-sm text-youorganic-dark">
-            © {new Date().getFullYear()} YouOrganic. All rights reserved.
+            © {new Date().getFullYear()} YouOrganic. Todos los derechos reservados.
           </p>
         </div>
       </div>

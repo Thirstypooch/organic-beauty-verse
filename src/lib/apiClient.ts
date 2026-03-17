@@ -1,10 +1,8 @@
 import axios from 'axios';
-import {useAuthStore} from "@/stores/authStore.ts";
+import { useAuthStore } from "@/stores/authStore";
 
 const apiClient = axios.create({
-    // The baseURL points to our API Gateway, which runs on port 8000.
-    // All requests will be prefixed with this URL.
-    baseURL: 'http://localhost:8000/api',
+    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api',
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -24,5 +22,14 @@ apiClient.interceptors.request.use(
     }
 );
 
+apiClient.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response?.status === 401) {
+            useAuthStore.getState().logout();
+        }
+        return Promise.reject(error);
+    }
+);
 
 export default apiClient;

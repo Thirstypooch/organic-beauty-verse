@@ -1,5 +1,4 @@
-
-import { Product } from "./product";
+import { Product } from "@/lib/schemas";
 
 export interface CartItem {
   product: Product;

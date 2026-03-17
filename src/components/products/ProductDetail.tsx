@@ -1,13 +1,14 @@
-
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { ShoppingCart, Heart, ArrowLeft, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useCartStore } from "@/stores/cartStore";
 import { useWishlistStore } from "@/stores/wishlistStore";
-import { getProductById, getRelatedProducts } from "@/data/mockProducts";
+import { fetchProductById, fetchProducts, fetchCategories } from "@/services/api";
 import { toast } from "@/components/ui/sonner";
 import ProductCard from "./ProductCard";
 
@@ -15,40 +16,74 @@ const ProductDetail = () => {
   const { productId } = useParams<{ productId: string }>();
   const [quantity, setQuantity] = useState(1);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
-  
-  const product = productId ? getProductById(productId) : null;
-  const relatedProducts = product ? getRelatedProducts(product.id, product.category) : [];
-  
-  // Mock multiple product images
-  const productImages = product ? [
-    product.imageUrl,
-    "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?q=80&w=500",
-    "https://images.unsplash.com/photo-1615622231207-78f95c2d8772?q=80&w=500"
-  ] : [];
+
+  const numericId = productId ? parseInt(productId, 10) : undefined;
+
+  const { data: product, isLoading } = useQuery({
+    queryKey: ['product', numericId],
+    queryFn: () => fetchProductById(numericId!),
+    enabled: !!numericId,
+  });
+
+  const { data: categories } = useQuery({
+    queryKey: ['categories'],
+    queryFn: fetchCategories,
+  });
+
+  const categoryName = categories?.find((c) => c.id === product?.categoryId)?.name;
+
+  // Fetch related products from same category
+  const { data: allCategoryProducts } = useQuery({
+    queryKey: ['products', categoryName?.toLowerCase()],
+    queryFn: () => fetchProducts(categoryName?.toLowerCase()),
+    enabled: !!categoryName,
+  });
+
+  const relatedProducts = allCategoryProducts
+    ?.filter((p) => p.id !== product?.id)
+    .slice(0, 3) || [];
+
+  const productImages = product ? [product.imageUrl].filter(Boolean) as string[] : [];
 
   const addToCart = useCartStore((state) => state.addToCart);
   const addToWishlist = useWishlistStore((state) => state.addToWishlist);
   const isInWishlist = useWishlistStore((state) => state.isInWishlist);
 
+  if (isLoading) {
+    return (
+      <div className="container mx-auto px-4 py-8 md:py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+          <Skeleton className="aspect-square w-full rounded-lg" />
+          <div className="space-y-4">
+            <Skeleton className="h-10 w-3/4" />
+            <Skeleton className="h-6 w-1/4" />
+            <Skeleton className="h-24 w-full" />
+            <Skeleton className="h-12 w-full" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (!product) {
     return (
       <div className="container mx-auto px-4 py-12">
-        <p>Product not found</p>
+        <p>Producto no encontrado</p>
       </div>
     );
   }
 
   const handleAddToCart = () => {
     addToCart(product, quantity);
-    toast.success("Added to cart", {
-      description: `${quantity} ${quantity > 1 ? 'items' : 'item'} of ${product.name} added to your cart.`,
+    toast.success("Agregado al carrito", {
+      description: `${quantity} ${quantity > 1 ? 'unidades' : 'unidad'} de ${product.name} agregado a tu carrito.`,
     });
   };
 
   const handleAddToWishlist = () => {
     addToWishlist(product);
-    toast.success("Added to wishlist", {
-      description: `${product.name} has been added to your wishlist.`,
+    toast.success("Agregado a favoritos", {
+      description: `${product.name} se agregó a tu lista de deseos.`,
     });
   };
 
@@ -75,7 +110,7 @@ const ProductDetail = () => {
         <div className="relative">
           <div className="relative aspect-square rounded-lg overflow-hidden bg-white shadow-md">
             <img
-              src={productImages[activeImageIndex]}
+              src={productImages[activeImageIndex] || "https://via.placeholder.com/500"}
               alt={product.name}
               className="w-full h-full object-cover"
             />
@@ -131,9 +166,11 @@ const ProductDetail = () => {
               <span className="text-2xl font-semibold text-youorganic-green">
                 ${product.price.toFixed(2)}
               </span>
-              <span className="text-sm bg-youorganic-green/10 text-youorganic-green px-2 py-1 rounded">
-                {product.category}
-              </span>
+              {categoryName && (
+                <span className="text-sm bg-youorganic-green/10 text-youorganic-green px-2 py-1 rounded">
+                  {categoryName}
+                </span>
+              )}
             </div>
           </div>
 
@@ -143,7 +180,7 @@ const ProductDetail = () => {
 
           <div className="mb-8">
             <div className="flex items-center justify-between mb-3">
-              <span className="text-youorganic-dark font-medium">Quantity</span>
+              <span className="text-youorganic-dark font-medium">Cantidad</span>
               <div className="flex items-center border border-youorganic-light-green rounded-md">
                 <button
                   onClick={decreaseQuantity}
@@ -167,7 +204,7 @@ const ProductDetail = () => {
                 onClick={handleAddToCart}
               >
                 <ShoppingCart size={18} />
-                Add to Cart
+                Agregar al Carrito
               </Button>
               <Button
                 variant="outline"
@@ -179,7 +216,7 @@ const ProductDetail = () => {
                 onClick={handleAddToWishlist}
               >
                 <Heart size={18} />
-                {isInWishlist(product.id) ? "In Wishlist" : "Add to Wishlist"}
+                {isInWishlist(product.id) ? "En Favoritos" : "Agregar a Favoritos"}
               </Button>
             </div>
           </div>
@@ -189,13 +226,10 @@ const ProductDetail = () => {
           <Tabs defaultValue="details">
             <TabsList className="w-full bg-youorganic-cream">
               <TabsTrigger value="details" className="flex-1">
-                Details
-              </TabsTrigger>
-              <TabsTrigger value="ingredients" className="flex-1">
-                Ingredients
+                Detalles
               </TabsTrigger>
               <TabsTrigger value="how-to-use" className="flex-1">
-                How to Use
+                Modo de Uso
               </TabsTrigger>
             </TabsList>
             <TabsContent value="details" className="pt-4">
@@ -203,20 +237,15 @@ const ProductDetail = () => {
                 <p>{product.description}</p>
                 {product.warnings && (
                   <div className="bg-youorganic-beige p-3 rounded-md mt-4">
-                    <p className="font-medium text-youorganic-dark">Warnings:</p>
+                    <p className="font-medium text-youorganic-dark">Advertencias:</p>
                     <p>{product.warnings}</p>
                   </div>
                 )}
               </div>
             </TabsContent>
-            <TabsContent value="ingredients" className="pt-4">
-              <p className="text-youorganic-dark/80 text-sm">
-                {product.ingredients || "No ingredients information available."}
-              </p>
-            </TabsContent>
             <TabsContent value="how-to-use" className="pt-4">
               <p className="text-youorganic-dark/80 text-sm">
-                {product.howToUse || "No usage information available."}
+                {product.howToUse || "Información de uso no disponible."}
               </p>
             </TabsContent>
           </Tabs>
@@ -227,11 +256,15 @@ const ProductDetail = () => {
       {relatedProducts.length > 0 && (
         <div className="mt-16">
           <h2 className="font-serif text-2xl font-bold text-youorganic-green mb-6">
-            You May Also Like
+            También Te Puede Gustar
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {relatedProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+            {relatedProducts.map((relProduct) => (
+              <ProductCard
+                key={relProduct.id}
+                product={relProduct}
+                categoryName={categoryName || "Productos"}
+              />
             ))}
           </div>
         </div>

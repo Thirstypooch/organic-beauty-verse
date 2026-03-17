@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { useQuery } from '@tanstack/react-query';
 import { fetchCategories } from '@/services/api';
@@ -25,22 +24,22 @@ const CategoryShowcase = () => {
   }
 
   if (isError) {
-    return <div className="text-center py-12">Failed to load categories.</div>;
+    return <div className="text-center py-12">No se pudieron cargar las categorías.</div>;
   }
   return (
     <section className="py-12 md:py-16 bg-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-10 md:mb-12">
           <h2 className="font-serif text-3xl md:text-4xl font-bold text-youorganic-green mb-4">
-            Explore Our Categories
+            Explora Nuestras Categorías
           </h2>
           <p className="text-youorganic-dark/80 max-w-xl mx-auto">
-            Discover our range of organic skincare solutions designed for different needs
+            Descubre nuestra gama de soluciones orgánicas para el cuidado de la piel
           </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {categories?.slice(0, 6).map((category, index) => (
+          {categories?.slice(0, 6).map((category) => (
             <Link
               key={category.id}
               to={`/products/${category.name.toLowerCase()}`}
@@ -60,7 +59,7 @@ const CategoryShowcase = () => {
                     {category.description}
                   </p>
                   <div className="mt-2 inline-block text-white text-sm border-b border-white/0 group-hover:border-white transition-all duration-300">
-                    Shop Collection
+                    Ver Colección
                   </div>
                 </div>
               </div>
