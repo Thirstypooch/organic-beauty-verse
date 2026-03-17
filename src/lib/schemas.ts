@@ -65,3 +65,42 @@ export const loginFormSchema = z.object({
     password: z.string().min(1, { message: "La contraseña es obligatoria." }),
 });
 export type LoginFormData = z.infer<typeof loginFormSchema>;
+
+// Order schemas
+export const orderItemSchema = z.object({
+    id: z.number(),
+    productId: z.number(),
+    productName: z.string(),
+    productImageUrl: z.string().nullable(),
+    quantity: z.number(),
+    price: z.number(),
+});
+export type OrderItem = z.infer<typeof orderItemSchema>;
+
+export const orderSchema = z.object({
+    id: z.number(),
+    status: z.string(),
+    total: z.number(),
+    shippingAddress: z.object({
+        fullName: z.string(),
+        street: z.string(),
+        city: z.string(),
+        state: z.string(),
+        zipCode: z.string(),
+        phone: z.string(),
+    }),
+    items: z.array(orderItemSchema),
+    createdAt: z.string(),
+});
+export type Order = z.infer<typeof orderSchema>;
+
+// Shipping address form schema
+export const shippingFormSchema = z.object({
+    fullName: z.string().min(2, { message: "El nombre debe tener al menos 2 caracteres." }),
+    street: z.string().min(5, { message: "La dirección debe tener al menos 5 caracteres." }),
+    city: z.string().min(2, { message: "La ciudad es obligatoria." }),
+    state: z.string().min(2, { message: "El estado/provincia es obligatorio." }),
+    zipCode: z.string().min(3, { message: "El código postal es obligatorio." }),
+    phone: z.string().min(7, { message: "El teléfono debe tener al menos 7 dígitos." }),
+});
+export type ShippingFormData = z.infer<typeof shippingFormSchema>;

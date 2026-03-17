@@ -6,8 +6,11 @@ import {
     LoginFormData,
     categorySchema,
     productSchema,
+    orderSchema,
     Category,
     Product,
+    Order,
+    ShippingFormData,
 } from '@/lib/schemas';
 import { z } from 'zod';
 
@@ -63,6 +66,40 @@ export async function registerUser(data: RegisterFormData): Promise<AuthResponse
     } catch (error) {
         console.error('Registration failed:', error);
         throw new Error('Could not register user.');
+    }
+}
+
+// Orders
+export async function createOrder(data: {
+    shippingAddress: ShippingFormData;
+    items: { productId: number; quantity: number }[];
+}): Promise<Order> {
+    try {
+        const response = await apiClient.post('/orders', data);
+        return orderSchema.parse(response.data);
+    } catch (error) {
+        console.error('Failed to create order:', error);
+        throw new Error('No se pudo crear el pedido.');
+    }
+}
+
+export async function fetchOrders(): Promise<Order[]> {
+    try {
+        const response = await apiClient.get('/orders');
+        return z.array(orderSchema).parse(response.data);
+    } catch (error) {
+        console.error('Failed to fetch orders:', error);
+        throw new Error('No se pudieron obtener los pedidos.');
+    }
+}
+
+export async function fetchOrderById(id: number): Promise<Order> {
+    try {
+        const response = await apiClient.get(`/orders/${id}`);
+        return orderSchema.parse(response.data);
+    } catch (error) {
+        console.error(`Failed to fetch order ${id}:`, error);
+        throw new Error('No se pudo obtener el pedido.');
     }
 }
 
