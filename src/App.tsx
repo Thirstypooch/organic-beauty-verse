@@ -12,6 +12,7 @@ import CartPage from "./pages/CartPage";
 import WishlistPage from "./pages/WishlistPage";
 import BeautyAssistantPage from "./pages/BeautyAssistantPage";
 import CheckoutPage from "./pages/CheckoutPage";
+import AccountPage from "./pages/AccountPage";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import GuestRoute from "./components/auth/GuestRoute";
@@ -35,6 +36,7 @@ const App = () => (
             <Route path="/cart" element={<CartPage />} />
             <Route path="/checkout" element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
             <Route path="/wishlist" element={<ProtectedRoute><WishlistPage /></ProtectedRoute>} />
+            <Route path="/account" element={<ProtectedRoute><AccountPage /></ProtectedRoute>} />
             <Route path="/assistant" element={<BeautyAssistantPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

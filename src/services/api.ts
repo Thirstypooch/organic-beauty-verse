@@ -7,9 +7,11 @@ import {
     categorySchema,
     productSchema,
     orderSchema,
+    userSchema,
     Category,
     Product,
     Order,
+    User,
     ShippingFormData,
 } from '@/lib/schemas';
 import { z } from 'zod';
@@ -100,6 +102,17 @@ export async function fetchOrderById(id: number): Promise<Order> {
     } catch (error) {
         console.error(`Failed to fetch order ${id}:`, error);
         throw new Error('No se pudo obtener el pedido.');
+    }
+}
+
+// Profile
+export async function updateProfile(data: { name?: string; email?: string }): Promise<User> {
+    try {
+        const response = await apiClient.put('/user', data);
+        return userSchema.parse(response.data.user);
+    } catch (error) {
+        console.error('Failed to update profile:', error);
+        throw new Error('No se pudo actualizar el perfil.');
     }
 }
 

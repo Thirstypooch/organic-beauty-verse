@@ -15,6 +15,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+    Route::put('/user', [AuthController::class, 'updateProfile']);
 
     // Order routes
     Route::post('/orders', [OrderController::class, 'store']);
