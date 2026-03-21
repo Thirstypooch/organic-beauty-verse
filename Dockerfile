@@ -22,13 +22,15 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 WORKDIR /app
 COPY backend/user-service/ .
 
-RUN composer install --no-dev --optimize-autoloader --no-interaction
+RUN composer install --no-dev --optimize-autoloader --no-interaction \
+    && mkdir -p storage/logs storage/framework/cache storage/framework/sessions storage/framework/views bootstrap/cache \
+    && chmod -R 777 storage bootstrap/cache
 
 # Copy SPA build into Laravel's public directory
 COPY --from=frontend-build /frontend/dist/ /app/public/
 
-# web.php already has the fallback route for SPA
-RUN php artisan config:cache && php artisan route:cache
+# Don't cache config at build time — secrets are injected at runtime by Fly.io
+RUN php artisan route:cache
 
 EXPOSE 8080
 
