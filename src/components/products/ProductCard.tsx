@@ -83,7 +83,7 @@ const ProductCard = ({ product, categoryName }: ProductCardProps) => {
         >
           <Heart
             size={22}
-            fill={wishlisted ? "#4C7C44" : "none"}
+            fill={wishlisted ? "#B8919F" : "none"}
             strokeWidth={wishlisted ? 0 : 2}
           />
         </button>

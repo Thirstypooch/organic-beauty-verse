@@ -45,14 +45,14 @@ const BottomNav = () => {
               {active && (
                 <span
                   className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full"
-                  style={{ backgroundColor: "#4C7C44" }}
+                  style={{ backgroundColor: "#B8919F" }}
                 />
               )}
               <span className="relative">
                 <tab.icon
                   size={22}
                   strokeWidth={active ? 2.5 : 1.8}
-                  style={{ color: active ? "#4C7C44" : "#6B7280" }}
+                  style={{ color: active ? "#B8919F" : "#9CA3AF" }}
                 />
                 {tab.badge != null && tab.badge > 0 && (
                   <span
@@ -70,7 +70,7 @@ const BottomNav = () => {
               </span>
               <span
                 className="text-[10px] mt-1 font-medium"
-                style={{ color: active ? "#4C7C44" : "#6B7280" }}
+                style={{ color: active ? "#B8919F" : "#9CA3AF" }}
               >
                 {tab.label}
               </span>

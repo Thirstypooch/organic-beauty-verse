@@ -63,20 +63,24 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// YouOrganic custom colors
+				// YouOrganic custom colors — rose/mauve palette
 				youorganic: {
-					'green': '#4C7C44',
-					'light-green': '#87A881',
-					'cream': '#F6F3E9',
-					'beige': '#E8E2D0',
-					'brown': '#A57C52',
-					'light-brown': '#C8B4A3',
-					'dark': '#1E2B1B'
+					'green': '#B8919F',
+					'light-green': '#EABDCA',
+					'cream': '#FDF6F7',
+					'beige': '#F1CFC2',
+					'brown': '#E9BFC1',
+					'light-brown': '#E6C0BA',
+					'dark': '#3A2A2A',
+					'mauve': '#D2B0BF',
+					'blush': '#F8D0D5',
+					'rose': '#E9BFC1',
+					'peach': '#F1CFC2',
 				}
 			},
 			fontFamily: {
-				sans: ['Inter', 'sans-serif'],
-				serif: ['Playfair Display', 'serif'],
+				sans: ['DM Sans', 'sans-serif'],
+				serif: ['Cormorant Garamond', 'serif'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

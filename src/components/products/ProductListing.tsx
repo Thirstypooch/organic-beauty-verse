@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { FilterIcon } from "lucide-react";
@@ -10,8 +10,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
-import { Slider } from "@/components/ui/slider";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Sheet,
@@ -28,9 +26,8 @@ import { motion } from "framer-motion";
 
 const ProductListing = () => {
   const { category: categoryName } = useParams<{ category: string }>();
-  const [localPriceRange, setLocalPriceRange] = useState([0, 100]);
 
-  const { filters, setCategory, setPriceRange, setSortBy } = useFilterStore();
+  const { filters, setCategory, setSortBy } = useFilterStore();
 
   const {
     data: products,
@@ -57,18 +54,9 @@ const ProductListing = () => {
     }
   }, [categoryName, setCategory]);
 
-  const filteredProducts = React.useMemo(() => {
-    if (!products) return [];
-    return products.filter((product) => {
-      const { minPrice, maxPrice } = filters;
-      if (minPrice !== undefined && product.price < minPrice) return false;
-      if (maxPrice !== undefined && product.price > maxPrice) return false;
-      return true;
-    });
-  }, [products, filters]);
-
   const sortedProducts = React.useMemo(() => {
-    return [...filteredProducts].sort((a, b) => {
+    if (!products) return [];
+    return [...products].sort((a, b) => {
       switch (filters.sortBy) {
         case "name-asc":
           return a.name.localeCompare(b.name);
@@ -82,11 +70,7 @@ const ProductListing = () => {
           return 0;
       }
     });
-  }, [filteredProducts, filters.sortBy]);
-
-  const handlePriceCommit = (values: number[]) => {
-    setPriceRange(values[0], values[1]);
-  };
+  }, [products, filters.sortBy]);
 
   const handleSortChange = (value: string) => {
     setSortBy(value as SortOption);
@@ -95,26 +79,6 @@ const ProductListing = () => {
   /* ---------- Contenido compartido de filtros ---------- */
   const filterContent = (
     <div className="space-y-6">
-      <div>
-        <h3 className="font-medium mb-3 text-youorganic-dark">
-          Rango de Precio
-        </h3>
-        <Slider
-          value={localPriceRange}
-          max={100}
-          step={1}
-          onValueChange={setLocalPriceRange}
-          onValueCommit={handlePriceCommit}
-          className="mb-4"
-        />
-        <div className="flex justify-between text-sm text-youorganic-dark/70">
-          <span>${localPriceRange[0]}</span>
-          <span>${localPriceRange[1]}</span>
-        </div>
-      </div>
-
-      <Separator className="bg-youorganic-light-green/30" />
-
       <div>
         <h3 className="font-medium mb-3 text-youorganic-dark">Ordenar por</h3>
         <Select onValueChange={handleSortChange} defaultValue={filters.sortBy}>
@@ -144,7 +108,7 @@ const ProductListing = () => {
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" as const } },
   };
 
   if (isError) {
