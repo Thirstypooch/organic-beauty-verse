@@ -25,19 +25,9 @@ COPY backend/user-service/ .
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Copy SPA build into Laravel's public directory
-# Assets (JS/CSS) go directly into public so they're served as static files
 COPY --from=frontend-build /frontend/dist/ /app/public/
 
-# SPA catch-all: serve index.html for any non-API, non-file route
-RUN cat > /app/routes/web.php << 'WEBEOF'
-<?php
-use Illuminate\Support\Facades\Route;
-
-Route::fallback(function () {
-    return file_get_contents(public_path('index.html'));
-});
-WEBEOF
-
+# web.php already has the fallback route for SPA
 RUN php artisan config:cache && php artisan route:cache
 
 EXPOSE 8080
