@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { ShippingFormData, shippingFormSchema } from "@/lib/schemas";
-import { createOrder, createPayment } from "@/services/api";
+import { createOrder } from "@/services/api";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "@/components/ui/sonner";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,7 @@ import { Separator } from "@/components/ui/separator";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { Package, MapPin, CreditCard, Loader2 } from "lucide-react";
+import { MERCADOPAGO_PAYMENT_LINK } from "@/lib/constants";
 
 type Step = "shipping" | "review";
 
@@ -44,7 +45,7 @@ const CheckoutPage = () => {
     mutationFn: async () => {
       if (!shippingData) throw new Error("No shipping data");
 
-      // Step 1: Create the order
+      // Create the order in the backend
       const order = await createOrder({
         shippingAddress: shippingData,
         items: cartItems.map((item) => ({
@@ -53,20 +54,15 @@ const CheckoutPage = () => {
         })),
       });
 
-      // Step 2: Create payment preference
-      const payment = await createPayment(order.id);
-
-      return payment;
+      return order;
     },
-    onSuccess: (payment) => {
+    onSuccess: () => {
       setIsRedirecting(true);
       clearCart();
-      toast.success("Redirigiendo a MercadoPago...");
+      toast.success("Pedido registrado. Redirigiendo a MercadoPago...");
 
-      // Use sandbox URL in development, production URL otherwise
-      const isDev = import.meta.env.DEV;
-      const checkoutUrl = isDev ? payment.sandboxInitPoint : payment.initPoint;
-      window.location.href = checkoutUrl;
+      // Redirect to MercadoPago Link de Pago
+      window.location.href = MERCADOPAGO_PAYMENT_LINK;
     },
     onError: () => {
       toast.error("Error al procesar el pedido. Intenta de nuevo.");
@@ -150,87 +146,39 @@ const CheckoutPage = () => {
                 <form onSubmit={handleSubmit(onShippingSubmit)} className="grid gap-4">
                   <div className="grid gap-2">
                     <Label htmlFor="fullName">Nombre completo</Label>
-                    <Input
-                      id="fullName"
-                      placeholder="María García"
-                      className="h-12"
-                      {...register("fullName")}
-                    />
-                    {errors.fullName && (
-                      <p className="text-red-500 text-xs">{errors.fullName.message}</p>
-                    )}
+                    <Input id="fullName" placeholder="María García" className="h-12" {...register("fullName")} />
+                    {errors.fullName && <p className="text-red-500 text-xs">{errors.fullName.message}</p>}
                   </div>
                   <div className="grid gap-2">
                     <Label htmlFor="street">Dirección</Label>
-                    <Input
-                      id="street"
-                      placeholder="Calle Ejemplo 123, Piso 2"
-                      className="h-12"
-                      {...register("street")}
-                    />
-                    {errors.street && (
-                      <p className="text-red-500 text-xs">{errors.street.message}</p>
-                    )}
+                    <Input id="street" placeholder="Calle Ejemplo 123, Piso 2" className="h-12" {...register("street")} />
+                    {errors.street && <p className="text-red-500 text-xs">{errors.street.message}</p>}
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="grid gap-2">
                       <Label htmlFor="city">Ciudad</Label>
-                      <Input
-                        id="city"
-                        placeholder="Madrid"
-                        className="h-12"
-                        {...register("city")}
-                      />
-                      {errors.city && (
-                        <p className="text-red-500 text-xs">{errors.city.message}</p>
-                      )}
+                      <Input id="city" placeholder="Lima" className="h-12" {...register("city")} />
+                      {errors.city && <p className="text-red-500 text-xs">{errors.city.message}</p>}
                     </div>
                     <div className="grid gap-2">
-                      <Label htmlFor="state">Estado / Provincia</Label>
-                      <Input
-                        id="state"
-                        placeholder="Madrid"
-                        className="h-12"
-                        {...register("state")}
-                      />
-                      {errors.state && (
-                        <p className="text-red-500 text-xs">{errors.state.message}</p>
-                      )}
+                      <Label htmlFor="state">Departamento</Label>
+                      <Input id="state" placeholder="Lima" className="h-12" {...register("state")} />
+                      {errors.state && <p className="text-red-500 text-xs">{errors.state.message}</p>}
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="grid gap-2">
                       <Label htmlFor="zipCode">Código postal</Label>
-                      <Input
-                        id="zipCode"
-                        placeholder="28001"
-                        className="h-12"
-                        inputMode="numeric"
-                        {...register("zipCode")}
-                      />
-                      {errors.zipCode && (
-                        <p className="text-red-500 text-xs">{errors.zipCode.message}</p>
-                      )}
+                      <Input id="zipCode" placeholder="15001" className="h-12" inputMode="numeric" {...register("zipCode")} />
+                      {errors.zipCode && <p className="text-red-500 text-xs">{errors.zipCode.message}</p>}
                     </div>
                     <div className="grid gap-2">
                       <Label htmlFor="phone">Teléfono</Label>
-                      <Input
-                        id="phone"
-                        type="tel"
-                        placeholder="+34 612 345 678"
-                        className="h-12"
-                        inputMode="tel"
-                        {...register("phone")}
-                      />
-                      {errors.phone && (
-                        <p className="text-red-500 text-xs">{errors.phone.message}</p>
-                      )}
+                      <Input id="phone" type="tel" placeholder="+51 999 888 777" className="h-12" inputMode="tel" {...register("phone")} />
+                      {errors.phone && <p className="text-red-500 text-xs">{errors.phone.message}</p>}
                     </div>
                   </div>
-                  <Button
-                    type="submit"
-                    className="w-full h-12 mt-2 bg-youorganic-green hover:bg-youorganic-green/90 text-base"
-                  >
+                  <Button type="submit" className="w-full h-12 mt-2 bg-youorganic-green hover:bg-youorganic-green/90 text-base">
                     Continuar al pago
                   </Button>
                 </form>
@@ -246,23 +194,16 @@ const CheckoutPage = () => {
                   <CardTitle className="text-xl">Resumen del pedido</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {/* Shipping summary */}
                   <div>
-                    <h3 className="font-medium text-sm text-youorganic-dark/60 mb-1">
-                      Enviar a:
-                    </h3>
+                    <h3 className="font-medium text-sm text-youorganic-dark/60 mb-1">Enviar a:</h3>
                     <p className="text-sm">{shippingData.fullName}</p>
                     <p className="text-sm">{shippingData.street}</p>
-                    <p className="text-sm">
-                      {shippingData.city}, {shippingData.state}{" "}
-                      {shippingData.zipCode}
-                    </p>
+                    <p className="text-sm">{shippingData.city}, {shippingData.state} {shippingData.zipCode}</p>
                     <p className="text-sm">{shippingData.phone}</p>
                   </div>
 
                   <Separator />
 
-                  {/* Cart items */}
                   <div className="space-y-3">
                     {cartItems.map((item) => (
                       <div key={item.product.id} className="flex items-center gap-3">
@@ -272,12 +213,8 @@ const CheckoutPage = () => {
                           className="w-16 h-16 object-cover rounded-lg"
                         />
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium truncate">
-                            {item.product.name}
-                          </p>
-                          <p className="text-sm text-youorganic-dark/60">
-                            Cantidad: {item.quantity}
-                          </p>
+                          <p className="text-sm font-medium truncate">{item.product.name}</p>
+                          <p className="text-sm text-youorganic-dark/60">Cantidad: {item.quantity}</p>
                         </div>
                         <p className="text-sm font-semibold whitespace-nowrap">
                           ${(item.product.price * item.quantity).toFixed(2)}
@@ -288,13 +225,11 @@ const CheckoutPage = () => {
 
                   <Separator />
 
-                  {/* Total */}
                   <div className="flex justify-between items-center text-lg font-bold">
                     <span>Total</span>
                     <span>${cartSubtotal.toFixed(2)}</span>
                   </div>
 
-                  {/* MercadoPago notice */}
                   <div className="bg-youorganic-blush/40 rounded-lg p-3 text-center">
                     <p className="text-xs text-youorganic-dark/60">
                       Serás redirigido a MercadoPago para completar el pago de forma segura.

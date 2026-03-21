@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { FilterIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -11,13 +9,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 import ProductCard from "./ProductCard";
 import { useFilterStore } from "@/stores/filterStore";
 import { fetchProducts, fetchCategories } from "@/services/api";
@@ -76,27 +67,6 @@ const ProductListing = () => {
     setSortBy(value as SortOption);
   };
 
-  /* ---------- Contenido compartido de filtros ---------- */
-  const filterContent = (
-    <div className="space-y-6">
-      <div>
-        <h3 className="font-medium mb-3 text-youorganic-dark">Ordenar por</h3>
-        <Select onValueChange={handleSortChange} defaultValue={filters.sortBy}>
-          <SelectTrigger className="w-full border-youorganic-light-green">
-            <SelectValue placeholder="Ordenar por" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="name-asc">Nombre (A-Z)</SelectItem>
-            <SelectItem value="name-desc">Nombre (Z-A)</SelectItem>
-            <SelectItem value="price-asc">Precio (Menor a Mayor)</SelectItem>
-            <SelectItem value="price-desc">Precio (Mayor a Menor)</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-    </div>
-  );
-
-  /* ---------- Variantes de animación stagger ---------- */
   const containerVariants = {
     hidden: {},
     visible: {
@@ -123,7 +93,7 @@ const ProductListing = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      {/* Encabezado de categoría */}
+      {/* Header */}
       <div className="mb-8">
         <h1 className="font-serif text-3xl md:text-4xl font-bold text-youorganic-green mb-2">
           {categoryData?.name || <Skeleton className="h-10 w-48" />}
@@ -135,109 +105,67 @@ const ProductListing = () => {
         </p>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-8">
-        {/* ---- Filtros móvil: Sheet slide-up ---- */}
-        <div className="lg:hidden mb-2">
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button
-                variant="outline"
-                className="w-full min-h-[44px] flex items-center justify-center gap-2 border-youorganic-light-green text-youorganic-dark"
-              >
-                <FilterIcon size={18} />
-                Filtros y Orden
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="bottom" className="rounded-t-2xl bg-youorganic-cream">
-              <SheetHeader>
-                <SheetTitle className="font-serif text-youorganic-dark">
-                  Filtros
-                </SheetTitle>
-              </SheetHeader>
-              <div className="py-4">{filterContent}</div>
-            </SheetContent>
-          </Sheet>
-        </div>
-
-        {/* ---- Filtros escritorio: sidebar ---- */}
-        <aside className="hidden lg:block w-64 flex-shrink-0">
-          <div className="bg-white p-6 rounded-xl shadow-md sticky top-24">
-            <h2 className="font-serif text-xl font-semibold mb-4 text-youorganic-dark">
-              Filtros
-            </h2>
-            {filterContent}
-          </div>
-        </aside>
-
-        {/* ---- Contenido principal ---- */}
-        <div className="flex-1">
-          {/* Barra superior: contador + sort (solo escritorio) */}
-          <div className="flex items-center justify-between mb-6">
-            <p className="text-youorganic-dark text-sm sm:text-base">
-              Mostrando {sortedProducts.length} productos
-            </p>
-            <div className="hidden lg:block">
-              <Select
-                onValueChange={handleSortChange}
-                defaultValue={filters.sortBy}
-              >
-                <SelectTrigger className="w-[200px] border-youorganic-light-green">
-                  <SelectValue placeholder="Ordenar por" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="name-asc">Nombre (A-Z)</SelectItem>
-                  <SelectItem value="name-desc">Nombre (Z-A)</SelectItem>
-                  <SelectItem value="price-asc">
-                    Precio (Menor a Mayor)
-                  </SelectItem>
-                  <SelectItem value="price-desc">
-                    Precio (Mayor a Menor)
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          {/* Grid de productos */}
+      {/* Sort bar + product count */}
+      <div className="flex items-center justify-between mb-6">
+        <p className="text-youorganic-dark text-sm sm:text-base">
           {isLoading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-              {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="space-y-2">
-                  <Skeleton className="aspect-[3/4] sm:aspect-square w-full rounded-xl" />
-                  <Skeleton className="h-4 w-3/4" />
-                  <Skeleton className="h-4 w-1/2" />
-                </div>
-              ))}
-            </div>
-          ) : sortedProducts.length === 0 ? (
-            <div className="bg-white p-8 rounded-xl text-center">
-              <p className="text-youorganic-dark mb-2">
-                No se encontraron productos
-              </p>
-              <p className="text-youorganic-dark/70 text-sm">
-                Intenta ajustar los filtros o explora nuestras otras categorías.
-              </p>
-            </div>
+            <span className="inline-flex items-center gap-2 text-youorganic-green/70 italic">
+              <span className="inline-block w-1.5 h-1.5 rounded-full bg-youorganic-green animate-pulse" />
+              Cargando tus productos...
+            </span>
           ) : (
-            <motion.div
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-60px" }}
-            >
-              {sortedProducts.map((product) => (
-                <motion.div key={product.id} variants={itemVariants}>
-                  <ProductCard
-                    product={product}
-                    categoryName={categoryData?.name || "Categoría"}
-                  />
-                </motion.div>
-              ))}
-            </motion.div>
+            `Mostrando ${sortedProducts.length} productos`
           )}
-        </div>
+        </p>
+        <Select onValueChange={handleSortChange} defaultValue={filters.sortBy}>
+          <SelectTrigger className="w-[180px] sm:w-[200px] border-youorganic-light-green">
+            <SelectValue placeholder="Ordenar por" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="name-asc">Nombre (A-Z)</SelectItem>
+            <SelectItem value="name-desc">Nombre (Z-A)</SelectItem>
+            <SelectItem value="price-asc">Precio (Menor a Mayor)</SelectItem>
+            <SelectItem value="price-desc">Precio (Mayor a Menor)</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
+
+      {/* Product grid */}
+      {isLoading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="space-y-2">
+              <Skeleton className="aspect-[3/4] sm:aspect-square w-full rounded-xl" />
+              <Skeleton className="h-4 w-3/4" />
+              <Skeleton className="h-4 w-1/2" />
+            </div>
+          ))}
+        </div>
+      ) : sortedProducts.length === 0 ? (
+        <div className="bg-white p-8 rounded-xl text-center">
+          <p className="text-youorganic-dark mb-2">No se encontraron productos</p>
+          <p className="text-youorganic-dark/70 text-sm">
+            Explora nuestras otras categorías.
+          </p>
+        </div>
+      ) : (
+        <motion.div
+          key={categoryName}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {sortedProducts.map((product) => (
+            <motion.div key={product.id} variants={itemVariants}>
+              <ProductCard
+                product={product}
+                categoryName={categoryData?.name || "Categoría"}
+              />
+            </motion.div>
+          ))}
+        </motion.div>
+      )}
     </div>
   );
 };

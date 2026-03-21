@@ -61,33 +61,27 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <Link
-              to="/"
-              className="text-youorganic-dark hover:text-youorganic-green transition-colors"
-            >
-              Inicio
-            </Link>
+          <nav className="hidden lg:flex items-center space-x-6">
             {categories.slice(0, 4).map((category) => (
               <Link
                 key={category.id}
                 to={`/products/${category.name.toLowerCase()}`}
-                className="text-youorganic-dark hover:text-youorganic-green transition-colors"
+                className="text-sm text-youorganic-dark hover:text-youorganic-green transition-colors whitespace-nowrap"
               >
                 {category.name}
               </Link>
             ))}
             <Link
               to="/assistant"
-              className="text-youorganic-dark hover:text-youorganic-green transition-colors"
+              className="text-sm text-youorganic-dark hover:text-youorganic-green transition-colors whitespace-nowrap"
             >
               Asistente de Belleza
             </Link>
           </nav>
 
           {/* Actions */}
-          <div className="flex items-center gap-2 md:gap-4">
-            <div className="hidden md:block">
+          <div className="flex items-center gap-2 lg:gap-4">
+            <div className="hidden lg:block">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-youorganic-dark/60" size={18} />
                 <Input
@@ -121,7 +115,7 @@ const Navbar = () => {
             </Link>
 
             {/* Auth: user menu or login link */}
-            <div className="hidden md:flex items-center gap-2">
+            <div className="hidden lg:flex items-center gap-2">
               {user ? (
                 <>
                   <span className="text-sm text-youorganic-dark truncate max-w-[120px]">
@@ -149,7 +143,7 @@ const Navbar = () => {
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden"
+              className="lg:hidden"
               onClick={toggleMenu}
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -160,7 +154,7 @@ const Navbar = () => {
 
       {/* Mobile menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white border-t border-gray-100 animate-fade-in">
+        <div className="lg:hidden bg-white border-t border-gray-100 animate-fade-in">
           <div className="container mx-auto px-4 py-4">
             <div className="flex flex-col space-y-4">
               <div className="relative mb-2">

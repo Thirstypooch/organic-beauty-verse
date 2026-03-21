@@ -18,7 +18,7 @@ const ProductCard = ({ product, categoryName }: ProductCardProps) => {
   const removeFromWishlist = useWishlistStore((state) => state.removeFromWishlist);
   const isInWishlist = useWishlistStore((state) => state.isInWishlist);
 
-  const imageUrl = product.imageUrl || "https://via.placeholder.com/400";
+  const imageUrl = product.imageUrl || "/placeholder.svg";
   const categoryUrl = categoryName.toLowerCase();
   const wishlisted = isInWishlist(product.id);
 
@@ -59,10 +59,11 @@ const ProductCard = ({ product, categoryName }: ProductCardProps) => {
         to={`/products/${categoryUrl}/${product.id}`}
         className="block relative aspect-[3/4] sm:aspect-square overflow-hidden"
       >
+        <div className="absolute inset-0 bg-youorganic-cream animate-pulse" />
         <img
           src={imageUrl}
           alt={product.name || "Imagen del producto"}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          className="relative w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
 
         {/* Insignia de categoría — esquina superior izquierda */}

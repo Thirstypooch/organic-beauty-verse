@@ -8,7 +8,7 @@
     "category": "Facial",
     "how_to_use": "Paso 1 Día - Acné Free Serum. Paso 1 Noche - Limpiador Facial de Vino. Paso 2 Noche - Retinol Serum.",
     "warnings": "Para uso externo. Descontinuar su uso en caso de ocurrir irritación. Mantener fuera de la exposición solar directa. Usar dentro de los 6 meses de abierto el frasco. Los ingredientes naturales pueden variar en color, olor y consistencia con cada nuevo lote de producción.",
-    "image": "/products/pack_tratamiento_acne.jpg"
+    "image": "https://ndbmthuppkyozfawrenb.supabase.co/storage/v1/object/public/products/pack_tratamiento_acne.jpg"
   },
   {
     "id": 2,
@@ -19,7 +19,7 @@
     "category": "Masajes",
     "how_to_use": "Realizar el masaje por 5-15 minutos sobre el rostro limpio después de tu rutina de Skincare. Para maximizar tu experiencia Gua Sha recomendamos usar el Óleo Gleam y/o nuestro aceite Orgánico de Jojoba. El producto incluye bolsita rosada adjunta en la foto.",
     "warnings": null,
-    "image": "/products/gua_sha.jpg"
+    "image": "https://ndbmthuppkyozfawrenb.supabase.co/storage/v1/object/public/products/gua_sha.jpg"
   },
   {
     "id": 3,
@@ -30,7 +30,7 @@
     "category": "Facial",
     "how_to_use": "Uso Am/PM. Aplicar 2-4 gotas sobre la piel limpia en el rostro, cuello, escote y masajear gentilmente. Para una experiencia completa de masaje Gua Sha recomendamos nuestra Bian Stone (piedra Gua Sha de Bian).",
     "warnings": "Para uso externo. Evitar el contacto directo con los ojos. Descontinuar su uso en caso de ocurrir irritación. Mantener fuera de la exposición solar directa. Usar dentro de los 6 meses de abierto el frasco. Los ingredientes naturales pueden variar en color, olor y consistencia con cada nuevo lote de producción.",
-    "image": "/products/gleam.jpg"
+    "image": "https://ndbmthuppkyozfawrenb.supabase.co/storage/v1/object/public/products/gleam.jpg"
   },
   {
     "id": 4,
@@ -41,7 +41,7 @@
     "category": "Facial",
     "how_to_use": null,
     "warnings": "Para uso externo solamente. Evitar el contacto directo con los ojos. Descontinuar su uso en caso de ocurrir irritación. Mantener fuera de la exposición solar directa. Usar dentro de los 6 meses de abierto el frasco. Los ingredientes naturales pueden variar en color, olor y consistencia con cada nuevo lote de producción.",
-    "image": "/products/jojoba.jpg"
+    "image": "https://ndbmthuppkyozfawrenb.supabase.co/storage/v1/object/public/products/jojoba.jpg"
   },
   {
     "id": 5,
@@ -52,7 +52,7 @@
     "category": "Limpieza Facial",
     "how_to_use": "Doble Limpieza facial en 1 solo producto! Uso diario PM. Paso 1- Con las manos limpias y secas aplicar una pequeña cantidad, masajear el rostro por aproximado 30 segundos. Paso 2- Humedecer las manos y seguir masajeando 30 segundos más (Ahora notará que la textura del limpiador de vino cambia en el rostro). Paso 3- Enjuagar con abundante agua.",
     "warnings": "Para uso externo. Evitar el contacto directo con los ojos. Descontinuar su uso en caso de ocurrir irritación. Mantener fuera de la exposición solar directa. Usar dentro de los 6 meses de abierto el frasco. Los ingredientes naturales pueden variar en color, olor y consistencia con cada nuevo lote de producción.",
-    "image": "/products/red_wine.jpg"
+    "image": "https://ndbmthuppkyozfawrenb.supabase.co/storage/v1/object/public/products/red_wine.jpg"
   },
   {
     "id": 6,
@@ -63,7 +63,7 @@
     "category": "Corporal",
     "how_to_use": "AM / PM. Aplicar una pequeña cantidad del producto en el rostro, manos y cuerpo. Masajear gentilmente y disfrutar!",
     "warnings": "Para uso externo. Mantener fuera de la exposición solar directa. Usar dentro de los 6 meses de abierto el frasco. Descontinue su uso en caso de irritación. Los ingredientes naturales pueden variar en color, olor y consistencia con cada nuevo lote de producción.",
-    "image": "/products/berries.jpg"
+    "image": "https://ndbmthuppkyozfawrenb.supabase.co/storage/v1/object/public/products/berries.jpg"
   },
   {
     "id": 7,
@@ -74,7 +74,7 @@
     "category": "Facial",
     "how_to_use": "Agitar antes de usar. Rociar y con suaves toques presionar en el rostro gentilmente y dejar absorber. Uso AM / PM. Uso recomendado con el rostro limpio, aplicar Bloom antes del serum, crema u óleo.",
     "warnings": "Para uso externo. Evitar el contacto directo con los ojos. Descontinuar su uso en caso de ocurrir irritación. Mantener fuera de la exposición solar directa. Usar dentro de los 6 meses de abierto el frasco. Los ingredientes naturales pueden variar en color, olor y consistencia con cada nuevo lote de producción.",
-    "image": "/products/bloom.jpg"
+    "image": "https://ndbmthuppkyozfawrenb.supabase.co/storage/v1/object/public/products/bloom.jpg"
   },
   {
     "id": 8,
@@ -85,7 +85,7 @@
     "category": "Facial",
     "how_to_use": "Aplicar 2-4 gotas del óleo Gleam sobre el rostro limpio, cuello y masajear. Usar día y noche. De día antes del bloqueador solar. De noche preferiblemente como último paso en la rutina facial.",
     "warnings": "Descontinuar de ocurrir alguna irritación, mantener en un ambiente fresco alejado de los rayos solares. Usar dentro de los 6 meses de abierto el frasco. Los ingredientes naturales pueden variar en color, olor y consistencia con cada nuevo lote de producción.",
-    "image": "/products/gleam_oleo_facial.png"
+    "image": "https://ndbmthuppkyozfawrenb.supabase.co/storage/v1/object/public/products/gleam_oleo_facial.png"
   },
   {
     "id": 9,
@@ -96,7 +96,7 @@
     "category": "Facial",
     "how_to_use": "Uso solo PM. Aplicar 2-3 gotas de Moon Serum después de tu rutina noche skincare, masajear gentilmente en el rostro, apaga la luz y dulces sueños! Tu piel se desincronizará del estrés digital.",
     "warnings": "Para uso externo. Evitar el contacto directo con los ojos. Descontinuar su uso en caso de ocurrir irritación. Mantener fuera de la exposición solar directa. Usar dentro de los 6 meses de abierto el frasco. Los ingredientes naturales pueden variar en color, olor y consistencia con cada nuevo lote de producción.",
-    "image": "/products/moon_serum.jpg"
+    "image": "https://ndbmthuppkyozfawrenb.supabase.co/storage/v1/object/public/products/moon_serum.jpg"
   },
   {
     "id": 10,
@@ -107,7 +107,7 @@
     "category": "Facial",
     "how_to_use": "Aplicar sobre la piel limpia alrededor del contorno de los ojos y masajear gentilmente. Uso AM/PM.",
     "warnings": "Para uso externo. Evitar el contacto directo con los ojos. Descontinuar su uso en caso de ocurrir irritación. Mantener fuera de la exposición solar directa. Usar dentro de los 6 meses de abierto el frasco. Los ingredientes naturales pueden variar en color, olor y consistencia con cada nuevo lote de producción.",
-    "image": "/products/ojos_si.jpg"
+    "image": "https://ndbmthuppkyozfawrenb.supabase.co/storage/v1/object/public/products/ojos_si.jpg"
   },
   {
     "id": 11,
@@ -118,7 +118,7 @@
     "category": "Facial",
     "how_to_use": "Uso AM. Aplicar en el rostro limpio 2-3 gotas y masajear gentilmente.",
     "warnings": null,
-    "image": "/products/serum_ceramidas.jpg"
+    "image": "https://ndbmthuppkyozfawrenb.supabase.co/storage/v1/object/public/products/serum_ceramidas.jpg"
   },
   {
     "id": 12,
@@ -129,7 +129,7 @@
     "category": "Corporal",
     "how_to_use": null,
     "warnings": "Descontinuar su uso en caso de ocurrir irritación. Mantener fuera de la exposición solar directa. Usar dentro de los 6 meses de abierto el frasco. Los ingredientes naturales pueden variar en color, olor y consistencia con cada nuevo lote de producción.",
-    "image": "/products/summerdays.jpg"
+    "image": "https://ndbmthuppkyozfawrenb.supabase.co/storage/v1/object/public/products/summerdays.jpg"
   },
   {
     "id": 13,
@@ -140,7 +140,7 @@
     "category": "Corporal",
     "how_to_use": "AM / PM. Aplicar una pequeña cantidad del producto en el rostro, manos y cuerpo. Masajear gentilmente y disfrutar!",
     "warnings": "Para uso externo. Mantener fuera de la exposición solar directa. Usar dentro de los 6 meses de abierto el frasco. Descontinue su uso en caso de irritación. Los ingredientes naturales pueden variar en color, olor y consistencia con cada nuevo lote de producción.",
-    "image": "/products/aloe_maracuya.jpg"
+    "image": "https://ndbmthuppkyozfawrenb.supabase.co/storage/v1/object/public/products/aloe_maracuya.jpg"
   },
   {
     "id": 14,
@@ -151,7 +151,7 @@
     "category": "Facial",
     "how_to_use": "Uso solo PM. Aplicar sobre la piel limpia en el rostro, cuello, escote y masajear gentilmente.",
     "warnings": "Para uso externo. Evitar el contacto directo con los ojos. Descontinuar su uso en caso de ocurrir irritación. Mantener fuera de la exposición solar directa. Usar dentro de los 6 meses de abierto el frasco. Los ingredientes naturales pueden variar en color, olor y consistencia con cada nuevo lote de producción.",
-    "image": "/products/retinol.jpg"
+    "image": "https://ndbmthuppkyozfawrenb.supabase.co/storage/v1/object/public/products/retinol.jpg"
   },
   {
     "id": 15,
@@ -162,7 +162,7 @@
     "category": "Facial",
     "how_to_use": "Uso AM / PM. Aplicar sobre la piel limpia en el rostro y masajear gentilmente.",
     "warnings": "Para uso externo. Evitar el contacto directo con los ojos. Descontinuar su uso en caso de ocurrir irritación. Mantener fuera de la exposición solar directa. Usar dentro de los 6 meses de abierto el frasco. Los ingredientes naturales pueden variar en color, olor y consistencia con cada nuevo lote de producción.",
-    "image": "/products/acne_free.jpg"
+    "image": "https://ndbmthuppkyozfawrenb.supabase.co/storage/v1/object/public/products/acne_free.jpg"
   },
   {
     "id": 16,
@@ -173,7 +173,7 @@
     "category": "Facial",
     "how_to_use": "Aplicar sobre la piel limpia en el rostro, cuello, escote y masajear gentilmente. Uso recomendado AM. Durante el día aplicar bloqueador solar como último paso en su rutina diaria.",
     "warnings": "Para uso externo. Evitar el contacto directo con los ojos. Descontinuar su uso en caso de ocurrir irritación. Mantener fuera de la exposición solar directa. Usar dentro de los 6 meses de abierto el frasco. Los ingredientes naturales pueden variar en color, olor y consistencia con cada nuevo lote de producción.",
-    "image": "/products/vitac.jpg"
+    "image": "https://ndbmthuppkyozfawrenb.supabase.co/storage/v1/object/public/products/vitac.jpg"
   },
   {
     "id": 17,
@@ -184,7 +184,7 @@
     "category": "Facial",
     "how_to_use": "Uso AM. Aplicar 2-4 gotas sobre el rostro limpio y escote y masajear gentilmente.",
     "warnings": "Para uso externo solamente. Evitar el contacto directo con los ojos. Descontinuar su uso en caso de ocurrir irritación. Mantener fuera de la exposición solar directa. Usar dentro de los 6 meses de abierto el frasco. Los ingredientes naturales pueden variar en color, olor y consistencia con cada nuevo lote de producción.",
-    "image": "/products/centella.jpg"
+    "image": "https://ndbmthuppkyozfawrenb.supabase.co/storage/v1/object/public/products/centella.jpg"
   },
   {
     "id": 18,
@@ -195,7 +195,7 @@
     "category": "Facial",
     "how_to_use": "Sobre la piel limpia aplicar 1-2 veces al día.",
     "warnings": "Descontinuar de ocurrir alguna irritación, mantener en un ambiente fresco alejado de los rayos solares. Usar dentro de los 6 meses de abierto el frasco. Los ingredientes naturales pueden variar en color, olor y consistencia con cada nuevo lote de producción.",
-    "image": "/products/rollon_menta.jpg"
+    "image": "https://ndbmthuppkyozfawrenb.supabase.co/storage/v1/object/public/products/rollon_menta.jpg"
   },
   {
     "id": 19,
@@ -206,7 +206,7 @@
     "category": "Facial",
     "how_to_use": "Después del rostro limpio aplicar 2-4 gotas de 1era Línea por todo el rostro, cuello, escote y presionar suavemente con las palmas de la mano en el rostro. Usar día y noche. Uso antes del bloqueador solar durante el día y preferiblemente como último paso de la rutina por la noche.",
     "warnings": "Descontinuar su uso en caso de ocurrir irritación. Mantener en un ambiente fresco alejado de los rayos solares. Usar dentro de los 6 meses de abierto el frasco. Los ingredientes naturales pueden variar en color, olor y consistencia con cada nuevo lote de producción.",
-    "image": "/products/serum_antioxidante.png"
+    "image": "https://ndbmthuppkyozfawrenb.supabase.co/storage/v1/object/public/products/serum_antioxidante.png"
   },
   {
     "id": 20,
@@ -217,7 +217,7 @@
     "category": "Corporal",
     "how_to_use": "Aplicar solo una pequeña cantidad de producto en las manos y disfrutar!",
     "warnings": "Para uso externo solamente. Evitar el contacto directo con los ojos. Descontinuar su uso en caso de ocurrir irritación. Mantener fuera de la exposición solar directa. Usar dentro de los 6 meses de abierto el frasco. Los ingredientes naturales pueden variar en color, olor y consistencia con cada nuevo lote de producción.",
-    "image": "/products/mandarinas.jpg"
+    "image": "https://ndbmthuppkyozfawrenb.supabase.co/storage/v1/object/public/products/mandarinas.jpg"
   },
   {
     "id": 21,
@@ -228,7 +228,7 @@
     "category": "Cabello",
     "how_to_use": "Rociar en las partes del cabello expuestas al calor. Aplicar antes del uso de secadores o plancha. Aplicar en todo el cabello antes de la exposición directa del sol.",
     "warnings": "Para uso externo. Mantener fuera de la exposición solar directa. Usar dentro de los 6 meses de abierto el frasco. Los ingredientes naturales pueden variar en color, olor y consistencia con cada nuevo lote de producción.",
-    "image": "/products/termoprotector.jpg"
+    "image": "https://ndbmthuppkyozfawrenb.supabase.co/storage/v1/object/public/products/termoprotector.jpg"
   },
   {
     "id": 22,
@@ -239,6 +239,6 @@
     "category": "Cabello",
     "how_to_use": "Aplicar una pequeña cantidad de producto en el cabello húmedo y/o seco y peinar. Puede aplicar como paso final después del peinado.",
     "warnings": null,
-    "image": "/products/crema_nutritiva.jpg"
+    "image": "https://ndbmthuppkyozfawrenb.supabase.co/storage/v1/object/public/products/crema_nutritiva.jpg"
   }
 ]

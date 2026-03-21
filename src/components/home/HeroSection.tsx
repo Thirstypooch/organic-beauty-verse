@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { SUPABASE_STORAGE_URL } from "@/lib/constants";
 
 const containerVariants = {
   hidden: {},
@@ -25,14 +25,14 @@ const fadeUp = {
 
 // Media items: image holds for 3s, videos play to completion
 const MEDIA_ITEMS: { type: "image" | "video"; src: string }[] = [
-  { type: "image", src: "/hero-landing.png" },
-  { type: "video", src: "/hero/video-1.mp4" },
-  { type: "video", src: "/hero/video-2.mp4" },
-  { type: "video", src: "/hero/video-3.mp4" },
+  { type: "image", src: `${SUPABASE_STORAGE_URL}/hero/hero-landing.png` },
+  { type: "video", src: `${SUPABASE_STORAGE_URL}/hero/video-1.mp4` },
+  { type: "video", src: `${SUPABASE_STORAGE_URL}/hero/video-2.mp4` },
 ];
 
 const IMAGE_HOLD_MS = 3000;
-const FADE_DURATION = 1.2;
+const FADE_IN_DURATION = 1.2;
+const FADE_OUT_DURATION = 2.0;
 
 const HeroSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -113,27 +113,13 @@ const HeroSection = () => {
               Libres de crueldad, llenos de vida.
             </motion.p>
 
-            <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-3">
+            <motion.div variants={fadeUp}>
               <Button
                 asChild
                 size="lg"
-                className="bg-youorganic-dark hover:bg-youorganic-dark/90 text-white text-sm tracking-wide px-8 py-6 rounded-full shadow-lg group"
+                className="bg-youorganic-dark hover:bg-youorganic-dark/90 text-white text-sm tracking-wide px-8 py-6 rounded-full shadow-lg w-full sm:w-auto"
               >
-                <Link to="/products/facial">
-                  Comprar Ahora
-                  <ArrowRight
-                    size={16}
-                    className="ml-2 group-hover:translate-x-1 transition-transform"
-                  />
-                </Link>
-              </Button>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="border-youorganic-green/40 text-youorganic-dark hover:bg-youorganic-blush/40 text-sm tracking-wide px-8 py-6 rounded-full"
-              >
-                <Link to="/products/corporal">Explorar Colección</Link>
+                <Link to="/products/facial">Explorar Colección</Link>
               </Button>
             </motion.div>
 
@@ -162,16 +148,15 @@ const HeroSection = () => {
           {/* Right — Media carousel */}
           <div className="relative order-1 md:order-2 -mx-4 md:mx-0">
             <div className="relative h-[50vh] md:h-[85vh] md:rounded-l-[3rem] overflow-hidden bg-youorganic-beige">
-              <AnimatePresence mode="popLayout">
+              <AnimatePresence>
                 {MEDIA_ITEMS.map((item, index) =>
                   index === activeIndex ? (
                     <motion.div
                       key={index}
                       className="absolute inset-0"
                       initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: FADE_DURATION, ease: "easeInOut" }}
+                      animate={{ opacity: 1, transition: { duration: FADE_IN_DURATION, ease: "easeInOut" } }}
+                      exit={{ opacity: 0, transition: { duration: FADE_OUT_DURATION, ease: "easeInOut" } }}
                     >
                       {item.type === "image" ? (
                         <img
@@ -215,20 +200,6 @@ const HeroSection = () => {
               </div>
             </div>
 
-            {/* Floating accent card */}
-            <motion.div
-              className="absolute bottom-8 left-4 md:bottom-12 md:-left-8 bg-white/90 backdrop-blur-md rounded-2xl px-5 py-4 shadow-xl z-10"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8, duration: 0.6, ease: "easeOut" }}
-            >
-              <p className="font-serif text-sm md:text-base text-youorganic-dark">
-                <span className="font-semibold">Libre de Crueldad</span>
-              </p>
-              <p className="text-xs text-youorganic-dark/50">
-                Ingredientes naturales y sustentables
-              </p>
-            </motion.div>
           </div>
         </div>
       </div>

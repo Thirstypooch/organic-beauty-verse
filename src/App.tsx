@@ -14,6 +14,7 @@ import BeautyAssistantPage from "./pages/BeautyAssistantPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import AccountPage from "./pages/AccountPage";
 import CheckoutResultPage from "./pages/CheckoutResultPage";
+import InfoPage from "./pages/InfoPage";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import GuestRoute from "./components/auth/GuestRoute";
@@ -42,6 +43,11 @@ const App = () => (
             <Route path="/wishlist" element={<ProtectedRoute><WishlistPage /></ProtectedRoute>} />
             <Route path="/account" element={<ProtectedRoute><AccountPage /></ProtectedRoute>} />
             <Route path="/assistant" element={<BeautyAssistantPage />} />
+            <Route path="/shipping" element={<InfoPage page="shipping" />} />
+            <Route path="/returns" element={<InfoPage page="returns" />} />
+            <Route path="/faq" element={<InfoPage page="faq" />} />
+            <Route path="/privacy" element={<InfoPage page="privacy" />} />
+            <Route path="/terms" element={<InfoPage page="terms" />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>

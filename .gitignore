@@ -27,5 +27,7 @@ repomix-output.xml
 .env
 .env/*
 repomix-output-frontend.xml
-public/
-!public/products/
+public/hero/
+public/hero-landing.png
+public/categories/
+public/products/
