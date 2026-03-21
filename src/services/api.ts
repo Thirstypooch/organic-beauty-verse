@@ -105,6 +105,17 @@ export async function fetchOrderById(id: number): Promise<Order> {
     }
 }
 
+// Payments
+export async function createPayment(orderId: number): Promise<{ initPoint: string; sandboxInitPoint: string; preferenceId: string }> {
+    try {
+        const response = await apiClient.post(`/orders/${orderId}/payment`);
+        return response.data;
+    } catch (error) {
+        console.error('Failed to create payment:', error);
+        throw new Error('No se pudo iniciar el pago.');
+    }
+}
+
 // Profile
 export async function updateProfile(data: { name?: string; email?: string }): Promise<User> {
     try {

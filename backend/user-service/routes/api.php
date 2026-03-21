@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 
 // Auth routes
@@ -21,7 +22,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/orders', [OrderController::class, 'store']);
     Route::get('/orders', [OrderController::class, 'index']);
     Route::get('/orders/{order}', [OrderController::class, 'show']);
+
+    // Payment routes
+    Route::post('/orders/{order}/payment', [PaymentController::class, 'createPreference']);
 });
+
+// MercadoPago webhook — no auth (called by MercadoPago directly)
+Route::post('/webhooks/mercadopago', [PaymentController::class, 'webhook']);
 
 // Product catalog routes
 Route::get('/categories', [CategoryController::class, 'index']);

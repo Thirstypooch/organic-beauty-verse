@@ -1,6 +1,7 @@
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
 const containerVariants = {
@@ -22,12 +23,64 @@ const fadeUp = {
   },
 };
 
+// Media items: image holds for 3s, videos play to completion
+const MEDIA_ITEMS: { type: "image" | "video"; src: string }[] = [
+  { type: "image", src: "/hero-landing.png" },
+  { type: "video", src: "/hero/video-1.mp4" },
+  { type: "video", src: "/hero/video-2.mp4" },
+  { type: "video", src: "/hero/video-3.mp4" },
+];
+
+const IMAGE_HOLD_MS = 3000;
+const FADE_DURATION = 1.2;
+
 const HeroSection = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const advance = useCallback(() => {
+    setActiveIndex((prev) => (prev + 1) % MEDIA_ITEMS.length);
+  }, []);
+
+  // Handle transitions: image uses a timer, video uses the `ended` event
+  useEffect(() => {
+    const item = MEDIA_ITEMS[activeIndex];
+
+    if (item.type === "image") {
+      timerRef.current = setTimeout(advance, IMAGE_HOLD_MS);
+    }
+
+    if (item.type === "video") {
+      const videoIndex = activeIndex;
+      const video = videoRefs.current[videoIndex];
+      if (video) {
+        video.currentTime = 0;
+        video.play().catch(() => {
+          // Autoplay blocked — skip to next
+          setTimeout(advance, 500);
+        });
+      }
+    }
+
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, [activeIndex, advance]);
+
+  const handleVideoEnd = useCallback(
+    (index: number) => {
+      if (index === activeIndex) {
+        advance();
+      }
+    },
+    [activeIndex, advance]
+  );
+
   return (
     <section className="relative min-h-[92vh] md:min-h-[85vh] overflow-hidden bg-youorganic-cream">
       <div className="container mx-auto px-4 h-full">
         <div className="grid grid-cols-1 md:grid-cols-2 items-center min-h-[92vh] md:min-h-[85vh] gap-0">
-
           {/* Left — Text content */}
           <motion.div
             className="relative z-10 py-16 md:py-0 md:pr-12 lg:pr-20 order-2 md:order-1"
@@ -68,7 +121,10 @@ const HeroSection = () => {
               >
                 <Link to="/products/facial">
                   Comprar Ahora
-                  <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight
+                    size={16}
+                    className="ml-2 group-hover:translate-x-1 transition-transform"
+                  />
                 </Link>
               </Button>
               <Button
@@ -103,26 +159,65 @@ const HeroSection = () => {
             </motion.div>
           </motion.div>
 
-          {/* Right — Hero image */}
-          <motion.div
-            className="relative order-1 md:order-2 -mx-4 md:mx-0"
-            initial={{ opacity: 0, scale: 1.05 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <div className="relative h-[50vh] md:h-[85vh] md:rounded-l-[3rem] overflow-hidden">
-              <img
-                src="/hero-landing.png"
-                alt="Mujer en campo de lavanda al atardecer"
-                className="w-full h-full object-cover"
-              />
-              {/* Soft gradient overlay on mobile for text readability */}
-              <div className="absolute inset-0 bg-gradient-to-t from-youorganic-cream via-transparent to-transparent md:hidden" />
+          {/* Right — Media carousel */}
+          <div className="relative order-1 md:order-2 -mx-4 md:mx-0">
+            <div className="relative h-[50vh] md:h-[85vh] md:rounded-l-[3rem] overflow-hidden bg-youorganic-beige">
+              <AnimatePresence mode="popLayout">
+                {MEDIA_ITEMS.map((item, index) =>
+                  index === activeIndex ? (
+                    <motion.div
+                      key={index}
+                      className="absolute inset-0"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: FADE_DURATION, ease: "easeInOut" }}
+                    >
+                      {item.type === "image" ? (
+                        <img
+                          src={item.src}
+                          alt="Mujer en campo de lavanda al atardecer"
+                          className="w-full h-full object-cover brightness-[1.02]"
+                        />
+                      ) : (
+                        <video
+                          ref={(el) => {
+                            videoRefs.current[index] = el;
+                          }}
+                          src={item.src}
+                          muted
+                          playsInline
+                          preload="auto"
+                          onEnded={() => handleVideoEnd(index)}
+                          className="w-full h-full object-cover brightness-[0.95] saturate-[0.9]"
+                        />
+                      )}
+                    </motion.div>
+                  ) : null
+                )}
+              </AnimatePresence>
+
+              {/* Subtle vignette overlay for cohesion */}
+              <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-youorganic-cream/20 via-transparent to-transparent" />
+
+              {/* Progress dots */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                {MEDIA_ITEMS.map((_, i) => (
+                  <span
+                    key={i}
+                    className={`block h-1.5 rounded-full transition-all duration-500 ${
+                      i === activeIndex
+                        ? "w-6 bg-white"
+                        : "w-1.5 bg-white/40"
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
 
             {/* Floating accent card */}
             <motion.div
-              className="absolute bottom-8 left-4 md:bottom-12 md:-left-8 bg-white/90 backdrop-blur-md rounded-2xl px-5 py-4 shadow-xl"
+              className="absolute bottom-8 left-4 md:bottom-12 md:-left-8 bg-white/90 backdrop-blur-md rounded-2xl px-5 py-4 shadow-xl z-10"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8, duration: 0.6, ease: "easeOut" }}
@@ -130,11 +225,16 @@ const HeroSection = () => {
               <p className="font-serif text-sm md:text-base text-youorganic-dark">
                 <span className="font-semibold">Libre de Crueldad</span>
               </p>
-              <p className="text-xs text-youorganic-dark/50">Ingredientes naturales y sustentables</p>
+              <p className="text-xs text-youorganic-dark/50">
+                Ingredientes naturales y sustentables
+              </p>
             </motion.div>
-          </motion.div>
+          </div>
         </div>
       </div>
+
+      {/* Mobile gradient for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-t from-youorganic-cream via-transparent to-transparent md:hidden pointer-events-none" />
     </section>
   );
 };

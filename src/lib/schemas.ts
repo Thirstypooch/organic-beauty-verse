@@ -81,6 +81,7 @@ export const orderSchema = z.object({
     id: z.number(),
     status: z.string(),
     total: z.number(),
+    paymentStatus: z.string().nullable().optional(),
     shippingAddress: z.object({
         fullName: z.string(),
         street: z.string(),

@@ -13,6 +13,9 @@ class Order extends Model
         'status',
         'total',
         'shipping_address',
+        'payment_id',
+        'payment_status',
+        'preference_id',
     ];
 
     protected $casts = [
