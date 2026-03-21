@@ -1,0 +1,8 @@
+node_modules
+dist
+.git
+backend/user-service/vendor
+backend/user-service/.env
+backend/user-service/.env.backup*
+backend/user-service/storage/logs/*
+*.md
