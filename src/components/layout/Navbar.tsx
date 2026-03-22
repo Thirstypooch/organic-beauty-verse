@@ -14,6 +14,7 @@ import { toast } from "@/components/ui/sonner";
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const totalItems = useCartStore((state) => state.getTotalItems());
   const wishlistItems = useWishlistStore((state) => state.wishlist.items.length);
   const user = useAuthStore((state) => state.user);
@@ -55,13 +56,13 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center">
-            <h1 className="text-2xl md:text-3xl font-serif font-bold text-youorganic-green">
+            <h1 className="text-2xl lg:text-xl xl:text-2xl font-serif font-bold text-youorganic-green">
               YouOrganic
             </h1>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-6">
+          <nav className="hidden lg:flex items-center space-x-4 xl:space-x-6">
             {categories.slice(0, 4).map((category) => (
               <Link
                 key={category.id}
@@ -82,14 +83,25 @@ const Navbar = () => {
           {/* Actions */}
           <div className="flex items-center gap-2 lg:gap-4">
             <div className="hidden lg:block">
-              <div className="relative">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (searchQuery.trim()) {
+                    navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+                    setSearchQuery("");
+                  }
+                }}
+                className="relative"
+              >
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-youorganic-dark/60" size={18} />
                 <Input
                   type="search"
                   placeholder="Buscar productos..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-10 pr-4 h-9 rounded-full bg-youorganic-cream border-youorganic-light-green focus:border-youorganic-green"
                 />
-              </div>
+              </form>
             </div>
 
             <Link to="/wishlist" className="relative p-2">
@@ -157,14 +169,26 @@ const Navbar = () => {
         <div className="lg:hidden bg-white border-t border-gray-100 animate-fade-in">
           <div className="container mx-auto px-4 py-4">
             <div className="flex flex-col space-y-4">
-              <div className="relative mb-2">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (searchQuery.trim()) {
+                    navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+                    setSearchQuery("");
+                    setIsMenuOpen(false);
+                  }
+                }}
+                className="relative mb-2"
+              >
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-youorganic-dark/60" size={18} />
                 <Input
                   type="search"
                   placeholder="Buscar productos..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-10 pr-4 h-9 rounded-full bg-youorganic-cream border-youorganic-light-green focus:border-youorganic-green"
                 />
-              </div>
+              </form>
               <Link
                 to="/"
                 className="py-2 text-youorganic-dark hover:text-youorganic-green transition-colors"

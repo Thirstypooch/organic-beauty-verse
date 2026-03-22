@@ -3,7 +3,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import Index from "./pages/Index";
@@ -15,6 +16,7 @@ import CheckoutPage from "./pages/CheckoutPage";
 import AccountPage from "./pages/AccountPage";
 import CheckoutResultPage from "./pages/CheckoutResultPage";
 import InfoPage from "./pages/InfoPage";
+import SearchPage from "./pages/SearchPage";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import GuestRoute from "./components/auth/GuestRoute";
@@ -22,13 +24,22 @@ import BottomNav from "./components/layout/BottomNav";
 
 const queryClient = new QueryClient();
 
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <div className="pb-16 md:pb-0">
+        <ScrollToTop />
+        <div className="pb-16 lg:pb-0">
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/login" element={<GuestRoute><LoginPage /></GuestRoute>} />
@@ -42,6 +53,7 @@ const App = () => (
             <Route path="/checkout/pending" element={<ProtectedRoute><CheckoutResultPage status="pending" /></ProtectedRoute>} />
             <Route path="/wishlist" element={<ProtectedRoute><WishlistPage /></ProtectedRoute>} />
             <Route path="/account" element={<ProtectedRoute><AccountPage /></ProtectedRoute>} />
+            <Route path="/search" element={<SearchPage />} />
             <Route path="/assistant" element={<BeautyAssistantPage />} />
             <Route path="/shipping" element={<InfoPage page="shipping" />} />
             <Route path="/returns" element={<InfoPage page="returns" />} />

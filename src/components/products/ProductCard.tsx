@@ -57,7 +57,7 @@ const ProductCard = ({ product, categoryName }: ProductCardProps) => {
     >
       <Link
         to={`/products/${categoryUrl}/${product.id}`}
-        className="block relative aspect-[3/4] sm:aspect-square overflow-hidden"
+        className="block relative aspect-square overflow-hidden"
       >
         <div className="absolute inset-0 bg-youorganic-cream animate-pulse" />
         <img
@@ -92,12 +92,12 @@ const ProductCard = ({ product, categoryName }: ProductCardProps) => {
 
       <div className="p-4">
         <Link to={`/products/${categoryUrl}/${product.id}`} className="block">
-          <h3 className="font-serif text-base sm:text-lg font-semibold mb-1 text-youorganic-dark group-hover:text-youorganic-green transition-colors truncate">
+          <h3 className="font-serif text-sm sm:text-base lg:text-lg font-semibold mb-1 text-youorganic-dark group-hover:text-youorganic-green transition-colors truncate">
             {product.name}
           </h3>
         </Link>
 
-        <span className="block text-lg font-semibold text-youorganic-green mb-3">
+        <span className="block text-base sm:text-lg font-semibold text-youorganic-green mb-3">
           ${product.price.toFixed(2)}
         </span>
 
@@ -106,7 +106,7 @@ const ProductCard = ({ product, categoryName }: ProductCardProps) => {
           className="w-full sm:w-auto min-h-[44px] bg-youorganic-green hover:bg-youorganic-green/90 text-white rounded-lg flex items-center justify-center gap-2"
         >
           <ShoppingCart size={18} />
-          <span>Agregar al carrito</span>
+          <span className="hidden sm:inline">Agregar al carrito</span>
         </Button>
       </div>
     </motion.div>

@@ -33,7 +33,7 @@ class CategorySeeder extends Seeder
             [
                 'name' => 'Cabello',
                 'description' => 'Productos para el cuidado de todo tipo de cabello',
-                'image_url' => 'https://ndbmthuppkyozfawrenb.supabase.co/storage/v1/object/public/categories/cat-masajes.jpg',
+                'image_url' => 'https://ndbmthuppkyozfawrenb.supabase.co/storage/v1/object/public/categories/cat-cabello.jpg',
             ],
         ];
 

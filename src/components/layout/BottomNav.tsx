@@ -11,7 +11,7 @@ const BottomNav = () => {
 
   const tabs = [
     { label: "Inicio", icon: Home, path: "/" },
-    { label: "Categorías", icon: LayoutGrid, path: "/products/facial" },
+    { label: "Categorías", icon: LayoutGrid, path: "/#categorias" },
     { label: "Carrito", icon: ShoppingBag, path: "/cart", badge: totalItems },
     { label: "Favoritos", icon: Heart, path: "/wishlist" },
     {
@@ -22,13 +22,29 @@ const BottomNav = () => {
   ];
 
   const isActive = (path: string) => {
-    if (path === "/") return location.pathname === "/";
+    if (path === "/" || path === "/#categorias") return location.pathname === "/";
     return location.pathname.startsWith(path);
+  };
+
+  const handleNav = (path: string) => {
+    if (path.includes("#")) {
+      const [route, hash] = path.split("#");
+      if (location.pathname !== route) {
+        navigate(route);
+        setTimeout(() => {
+          document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" });
+        }, 300);
+      } else {
+        document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      navigate(path);
+    }
   };
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 md:hidden"
+      className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 lg:hidden"
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
     >
       <div className="flex items-center justify-around">
@@ -37,7 +53,7 @@ const BottomNav = () => {
           return (
             <button
               key={tab.path}
-              onClick={() => navigate(tab.path)}
+              onClick={() => handleNav(tab.path)}
               className="flex flex-col items-center justify-center flex-1 py-2 relative"
               style={{ minHeight: "44px", minWidth: "44px" }}
               aria-label={tab.label}

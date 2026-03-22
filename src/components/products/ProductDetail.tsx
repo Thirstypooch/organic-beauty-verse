@@ -98,8 +98,8 @@ const ProductDetail = () => {
 
   if (isLoading) {
     return (
-      <div className="container mx-auto px-4 py-6 md:py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
+      <div className="container mx-auto px-4 py-6 lg:py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12">
           <Skeleton className="aspect-square w-full rounded-2xl" />
           <div className="space-y-4">
             <Skeleton className="h-8 w-3/4" />
@@ -145,9 +145,9 @@ const ProductDetail = () => {
   };
 
   return (
-    <div className="pb-36 md:pb-0">
-      <div className="container mx-auto px-4 py-4 md:py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
+    <div className="pb-36 lg:pb-0">
+      <div className="container mx-auto px-4 py-4 lg:py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12">
           {/* Product Image */}
           <div className="relative">
             <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-white shadow-md">
@@ -186,7 +186,7 @@ const ProductDetail = () => {
             </p>
 
             {/* Quantity & Actions — desktop only */}
-            <div className="hidden md:block mb-8">
+            <div className="hidden lg:block mb-8">
               <div className="flex items-center justify-between mb-4">
                 <span className="text-youorganic-dark font-medium">
                   Cantidad
@@ -241,7 +241,7 @@ const ProductDetail = () => {
             </div>
 
             {/* Wishlist button — mobile only (cart is in sticky bar) */}
-            <div className="md:hidden mb-6">
+            <div className="lg:hidden mb-6">
               <Button
                 variant="outline"
                 className={`w-full border-youorganic-light-green hover:bg-youorganic-green/10 flex items-center justify-center gap-2 h-12 ${
@@ -264,7 +264,7 @@ const ProductDetail = () => {
             <Separator className="my-6 bg-youorganic-light-green/30" />
 
             {/* Mobile: Accordion sections */}
-            <div className="md:hidden">
+            <div className="lg:hidden">
               <AccordionSection title="Descripción">
                 <p>{product.description}</p>
               </AccordionSection>
@@ -283,7 +283,7 @@ const ProductDetail = () => {
             </div>
 
             {/* Desktop: Tabs */}
-            <div className="hidden md:block">
+            <div className="hidden lg:block">
               <Tabs defaultValue="details">
                 <TabsList className="w-full bg-youorganic-cream">
                   <TabsTrigger value="details" className="flex-1">
@@ -330,7 +330,7 @@ const ProductDetail = () => {
             </h2>
 
             {/* Mobile: horizontal scroll */}
-            <div className="md:hidden -mx-4 px-4">
+            <div className="lg:hidden -mx-4 px-4">
               <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
                 {relatedProducts.map((relProduct) => (
                   <div
@@ -347,7 +347,7 @@ const ProductDetail = () => {
             </div>
 
             {/* Desktop: grid */}
-            <div className="hidden md:grid md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div className="hidden lg:grid lg:grid-cols-4 gap-6">
               {relatedProducts.map((relProduct) => (
                 <ProductCard
                   key={relProduct.id}
@@ -361,7 +361,7 @@ const ProductDetail = () => {
       </div>
 
       {/* Sticky Add to Cart bar — mobile only */}
-      <div className="fixed bottom-16 left-0 right-0 z-40 bg-white border-t border-youorganic-light-green/30 shadow-[0_-4px_12px_rgba(0,0,0,0.08)] px-4 py-3 md:hidden">
+      <div className="fixed bottom-16 left-0 right-0 z-40 bg-white border-t border-youorganic-light-green/30 shadow-[0_-4px_12px_rgba(0,0,0,0.08)] px-4 py-3 lg:hidden">
         <div className="flex items-center gap-3">
           {/* Price */}
           <span className="text-lg font-bold text-youorganic-green whitespace-nowrap">

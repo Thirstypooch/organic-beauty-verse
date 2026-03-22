@@ -6,14 +6,15 @@ import { Category } from "@/lib/schemas";
 import { motion } from "framer-motion";
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: { opacity: 0, y: 30, scale: 0.96 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
+    scale: 1,
     transition: {
-      delay: i * 0.1,
+      delay: i * 0.08,
       duration: 0.5,
-      ease: "easeOut",
+      ease: "easeOut" as const,
     },
   }),
 };
@@ -26,23 +27,20 @@ const CategoryShowcase = () => {
 
   if (isLoading) {
     return (
-      <section className="py-12 md:py-16 bg-white">
+      <section className="py-12 lg:py-16 bg-white">
         <div className="container mx-auto px-4">
           <Skeleton className="h-8 w-64 mx-auto mb-3 rounded-lg" />
           <Skeleton className="h-5 w-80 mx-auto mb-10 rounded-lg" />
 
-          {/* Mobile: horizontal scroll skeletons */}
-          <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide md:hidden pb-4">
+          {/* Mobile/Tablet: 2-col skeleton */}
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:hidden">
             {Array.from({ length: 4 }).map((_, i) => (
-              <Skeleton
-                key={i}
-                className="min-w-[160px] h-48 rounded-xl flex-shrink-0 snap-start"
-              />
+              <Skeleton key={i} className="aspect-[3/4] w-full rounded-2xl" />
             ))}
           </div>
 
-          {/* Desktop: grid skeletons */}
-          <div className="hidden md:grid md:grid-cols-3 gap-6">
+          {/* Desktop: 3-col skeleton */}
+          <div className="hidden lg:grid lg:grid-cols-3 gap-6">
             {Array.from({ length: 3 }).map((_, i) => (
               <Skeleton key={i} className="h-64 w-full rounded-xl" />
             ))}
@@ -61,26 +59,26 @@ const CategoryShowcase = () => {
   }
 
   return (
-    <section className="py-12 md:py-16 bg-white">
+    <section id="categorias" className="py-12 lg:py-16 bg-white scroll-mt-20">
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div
-          className="text-center mb-8 md:mb-12"
+          className="text-center mb-8 lg:mb-12"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="font-serif text-3xl md:text-4xl font-bold text-youorganic-green mb-3">
+          <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-youorganic-green mb-3">
             Explora Nuestras Categorías
           </h2>
-          <p className="text-youorganic-dark/80 max-w-xl mx-auto text-sm md:text-base">
+          <p className="text-youorganic-dark/80 max-w-xl mx-auto text-sm lg:text-base">
             Descubre nuestra gama de soluciones orgánicas para el cuidado de la piel
           </p>
         </motion.div>
 
-        {/* Mobile: horizontal scroll strip */}
-        <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide md:hidden pb-4 -mx-4 px-4">
+        {/* Mobile/Tablet: 2-col grid */}
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:hidden">
           {categories?.map((category: Category, i: number) => (
             <motion.div
               key={category.id}
@@ -88,25 +86,27 @@ const CategoryShowcase = () => {
               variants={cardVariants}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true }}
-              className="flex-shrink-0 snap-start"
+              viewport={{ once: true, margin: "-30px" }}
             >
               <Link
                 to={`/products/${category.name.toLowerCase()}`}
-                className="block relative w-[160px] h-48 rounded-xl overflow-hidden shadow-md active:scale-95 transition-transform"
+                className="block relative aspect-[3/4] rounded-2xl overflow-hidden shadow-md active:scale-[0.98] transition-transform duration-150"
               >
                 <img
                   src={category.imageUrl ?? ""}
                   alt={category.name}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-youorganic-dark/75 via-youorganic-dark/20 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-3">
-                  <h3 className="text-white font-serif text-base font-semibold leading-tight">
+                <div className="absolute inset-0 bg-gradient-to-t from-youorganic-dark/80 via-youorganic-dark/20 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
+                  <h3 className="text-white font-serif text-base sm:text-lg font-semibold leading-tight">
                     {category.name}
                   </h3>
-                  <span className="text-white/70 text-xs mt-1 inline-block">
-                    Ver más
+                  <p className="text-white/70 text-[11px] sm:text-xs mt-1 line-clamp-1">
+                    {category.description}
+                  </p>
+                  <span className="text-white/80 text-[11px] sm:text-xs mt-1.5 inline-block font-medium">
+                    Ver Colección →
                   </span>
                 </div>
               </Link>
@@ -114,8 +114,8 @@ const CategoryShowcase = () => {
           ))}
         </div>
 
-        {/* Tablet / Desktop: grid */}
-        <div className="hidden md:grid md:grid-cols-3 gap-6">
+        {/* Desktop: 3-col grid */}
+        <div className="hidden lg:grid lg:grid-cols-3 gap-6">
           {categories?.map((category: Category, i: number) => (
             <motion.div
               key={category.id}
